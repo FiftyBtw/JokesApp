@@ -12,9 +12,11 @@ const dataSampleJoke = JokeStub.sampleJokeStub()
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>{dataCustomJoke.displayJoke()}</Text>
-      <Text>{dataSampleJoke.displayJoke()}</Text>
-      <StatusBar style="auto" />
+        <Text>Les CustomJoke :</Text>
+        <Text>{dataCustomJoke.displayJoke()}</Text>
+        <Text>Les SampleJoke :</Text>
+        <Text>{dataSampleJoke.displayJoke()}</Text>
+        <StatusBar style="auto" />
     </View>
   );
 }
