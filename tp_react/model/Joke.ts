@@ -11,7 +11,7 @@ export abstract class Joke {
         this._image = image;
     }
     public summary() : string {
-        return this._punchline.substring(0, 25) + '...';
+        return this._punchline.substring(0, 24) + '...';
     }
 
     public description() : string {
