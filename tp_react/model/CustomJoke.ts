@@ -9,7 +9,7 @@ export class CustomJoke extends Joke {
         this._id = id;
     }
 
-    get id(): string {
+    public get id(): string {
         return this._id;
     }
 }

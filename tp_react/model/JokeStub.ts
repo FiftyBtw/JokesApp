@@ -2,8 +2,10 @@ import {JokeFactory} from "./JokeFactory";
 import {CustomJoke} from "./CustomJoke";
 import {SampleJoke} from "./SampleJoke";
 
+// This class is used to create stubs for the Joke class.
 export class JokeStub {
 
+    // This method creates a stub for the CustomJoke class.
     public static customJokeStub() : CustomJoke[] {
         const customJokesJson = JSON.stringify([
             { id: "1", type: "general", setup: "Why was the math book sad?", punchline: "Because it had too many problems.", image: "math.png" },
@@ -12,6 +14,7 @@ export class JokeStub {
 
         return JokeFactory.createCustomJokes(customJokesJson);    }
 
+    // This method creates a stub for the SampleJoke class.
     public static sampleJokeStub() : SampleJoke[] {
         const sampleJokesJson = JSON.stringify([
             { id: 1, type: "general", setup: "How does a penguin build its house?", punchline: "Igloos it together.", image: "penguin.png" },

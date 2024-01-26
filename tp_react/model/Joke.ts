@@ -1,36 +1,42 @@
+
+// The Joke class is the base class for all jokes.
 export abstract class Joke {
+
     private _type : string;
     private _setup : string;
     private _punchline : string;
     private _image : string;
 
-    constructor(type : string, setup : string, punchline : string, image : string) {
+    protected constructor(type : string, setup : string, punchline : string, image : string) {
         this._type = type;
         this._setup = setup;
         this._punchline = punchline;
         this._image = image;
     }
+
+    // This method returns a summary of the joke with a maximum of 25 characters.
     public summary() : string {
         return this._setup.substring(0, 25) + '...';
     }
 
+    // This method returns a description of the joke.
     public description() : string {
         return this._type + ' - ' + this.summary();
     }
 
-    get type() : string {
+    public get type() : string {
         return this._type;
     }
 
-    get setup(): string {
+    public get setup(): string {
         return this._setup;
     }
 
-    get punchline(): string {
+    public get punchline(): string {
         return this._punchline;
     }
 
-    get image(): string {
+    public get image(): string {
         return this._image;
     }
 }

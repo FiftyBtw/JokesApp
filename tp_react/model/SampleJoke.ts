@@ -8,7 +8,7 @@ export class SampleJoke extends Joke {
         this._id = id;
     }
 
-    get id(): number {
+    public get id(): number {
         return this._id;
     }
 }
