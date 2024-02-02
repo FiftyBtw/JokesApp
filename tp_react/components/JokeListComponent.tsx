@@ -10,7 +10,6 @@ type JokeItemProps = {
 export default function JokeListItem(props: JokeItemProps) {
     return (
         <View>
-
             <View style={styles.jokeItem}>
                 <View style={styles.rectangle}>
                 </View>
