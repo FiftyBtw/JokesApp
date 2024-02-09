@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {SampleJoke} from "../model/SampleJoke";
+import {theme} from "../assets/Theme";
 
 type JokeItemProps = {
     joke: SampleJoke;
 };
 
-// Composant servant à afficher une joke
+// Composant servant à afficher une joke pour une liste verticale
 export default function JokeListItem(props: JokeItemProps) {
     return (
         <View>
@@ -34,51 +35,42 @@ export default function JokeListItem(props: JokeItemProps) {
 const styles = StyleSheet.create({
 
     rectangle: {
-        backgroundColor: "darksalmon",
+        backgroundColor: theme.colors.darksalmonColor,
         width: 10
     },
-
     jokeItem: {
         flexDirection: 'row',
         marginHorizontal: '5%',
         marginVertical: 10,
-        backgroundColor: 'rgb(14,14,42)',
+        backgroundColor: theme.colors.indigoColor,
         marginBottom: 10,
     },
-
     jokeDetails: {
         width: '60%',
         padding: 10,
-        flexDirection: 'column',
         justifyContent: 'space-around',
     },
-
     jokeSummary: {
         color: 'white',
         marginLeft: 4
     },
-
     jokeType: {
-        flexDirection: 'row',
-        backgroundColor: 'rgb(140, 140, 159)',
+        backgroundColor: theme.colors.greyColor,
         borderRadius : 25,
         padding: 3,
         justifyContent: "center",
         alignSelf: "baseline",
         marginLeft: 4
     },
-
     chip: {
         color: '#fff',
         padding: 5,
         marginLeft: 2,
         marginRight: 2
     },
-
     jokeImageContainer: {
         width: '40%',
     },
-
     jokeImage: {
         width: '100%',
         height: 150,

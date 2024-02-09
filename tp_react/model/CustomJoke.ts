@@ -1,5 +1,6 @@
 import {Joke} from "./Joke";
 
+// This class is a joke with a string id
 export class CustomJoke extends Joke {
 
     private _id : string;
