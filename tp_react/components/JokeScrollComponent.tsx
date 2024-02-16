@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.colors.indigoColor,
         margin: 10,
-        height: 200,
-        width: 240,
+        height: 190,
+        width: 210,
         borderRadius: 5,
 
     },
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
         color: "white",
     },
     jokeImage: {
-        width: '70%',
-        height: 110,
+        width: '60%',
+        height: 90,
         position: 'absolute',
         margin: 5,
     }
