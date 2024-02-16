@@ -1,18 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import CataloguePage  from "./screens/CatalogueScreen";
+import {SafeAreaView, StyleSheet} from 'react-native';
 import Navigation from "./navigation/navigation";
 import { theme } from "./assets/Theme";
+import store from "./redux/store";
+import {Provider} from "react-redux";
+
 
 
 //import {loadExtensions} from "./extensions";
 //loadExtensions()
 export default function App() {
   return (
-      <SafeAreaView style={styles.container}>
-          <StatusBar style="light"/>
-          <Navigation/>
-      </SafeAreaView>
+      <>
+          <Provider store={store}>
+              <SafeAreaView style={styles.container}>
+                  <StatusBar style="light"/>
+                  <Navigation/>
+              </SafeAreaView>
+          </Provider>
+      </>
   );
 }
 

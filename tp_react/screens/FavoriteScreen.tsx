@@ -1,21 +1,31 @@
 import {FlatList, StyleSheet, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import React, {useLayoutEffect} from "react";
+import React, {useEffect} from "react";
 import {theme} from "../assets/Theme";
 import JokeListItem from "../components/JokeListComponent";
+import {useDispatch, useSelector} from "react-redux";
+import {getJokesList} from "../redux/actions/jokeActions";
+import {AppStore, Dispatch} from "../redux/store";
 import {SampleJoke} from "../model/SampleJoke";
-import {JokeStub} from "../model/JokeStub";
-
-const SAMPLE_JOKES : SampleJoke[] = JokeStub.sampleJokeStub();
+import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 
 // Page for listing all favorite joke
 export default function FavoriteScreen() {
+    const jokesList = useAppSelector(state => state.jokeReducer.jokes);
+
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        const loadJokes = async () => {
+            await dispatch(getJokesList());
+        }
+        loadJokes().then(r => console.log("Jokes loaded"))
+    }, [dispatch]);
+//bjsgd
     return (
         <View style={styles.container}>
             <FlatList
-                data={SAMPLE_JOKES}
+                data={jokesList}
                 renderItem={({ item }) => <JokeListItem joke={item} />}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item: SampleJoke) => (item.id.toString())}
             />
         </View>
     );

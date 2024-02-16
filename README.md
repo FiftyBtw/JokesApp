@@ -28,7 +28,11 @@ Application dedicated to learning React Native allowing you to make those around
   </p>
 </div>
 
-
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -62,14 +66,6 @@ This app is a project for the React Native course at the IUT of Clermont-Ferrand
 <!-- Don't hesitate to put images here to describe your project -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Built With
-
-* ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-* ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
-* ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -105,6 +101,7 @@ You can run the app on your phone using Expo Go or on your computer using an emu
 - [x] View a list of jokes from a given catalog
     - [x] Jokes Data
     - [x] User interface with display of jokes
+- [x] Link API
 - [ ] Add a joke 
 - [ ] Delete a joke created
 - [ ] Add a joke to favorites

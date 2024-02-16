@@ -1,12 +1,14 @@
-import {FlatList, Image, ScrollView, StyleSheet, Text, View} from "react-native";
-import React, {useLayoutEffect} from "react";
-import {useNavigation} from "@react-navigation/native";
+import {FlatList, Image, StyleSheet, Text, View} from "react-native";
+import React, {useEffect,} from "react";
 import { theme } from '../assets/Theme';
 import JokeScrollItem from "../components/JokeScrollComponent";
 import {SampleJoke} from "../model/SampleJoke";
 import {JokeStub} from "../model/JokeStub";
-import JokeListItem from "../components/JokeListComponent";
 import CategoryScrollComponent from "../components/CategoryScrollComponent";
+import {Category} from "../model/Category";
+import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
+import {getCategoriesList} from "../redux/thunks/categoryThunk";
+import {getLastJokes} from "../redux/thunks/jokeThunk";
 
 // List of all jokes
 const SAMPLE_JOKES : SampleJoke[] = JokeStub.sampleJokeStub();
@@ -21,6 +23,27 @@ const uniqueCategoriesData = uniqueCategories.map((category, index) => ({
 
 // Home page of the App
 export default function HomeScreen() {
+    const lastJokes  = useAppSelector((state) => state.jokeReducer.lastJokes) as SampleJoke[];
+    const categoryList = useAppSelector(state => state.categoryReducer.categories);
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const loadJokes = async () => {
+            await dispatch(getLastJokes());
+        }
+        loadJokes().then(r => console.log("Last Jokes loaded"))
+    }, [dispatch]);
+
+    useEffect(() => {
+        const loadCategories = async () => {
+            await dispatch(getCategoriesList());
+        }
+        loadCategories().then(r => console.log("Categories loaded"))
+    }, [dispatch]);
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.centered}>
@@ -35,8 +58,8 @@ export default function HomeScreen() {
                 <Text style={styles.titleCategories}> Dernières blagues</Text>
                 <FlatList
                     horizontal={true}
-                    data={SAMPLE_JOKES.reverse().slice(0, 3)}
-                    renderItem={({ item }) => <JokeScrollItem joke={item} />}
+                    data={lastJokes}
+                    renderItem={({ item  }) => <JokeScrollItem joke={item} />}
                     keyExtractor={(item) => item.id.toString()}
                     showsHorizontalScrollIndicator={false}
                 />
@@ -51,9 +74,9 @@ export default function HomeScreen() {
                 <View style={styles.categoryContainer}>
                     <FlatList
                         horizontal={true}
-                        data={uniqueCategoriesData}
-                        renderItem={({ item }) => <CategoryScrollComponent category={item.category} />}
-                        keyExtractor={(item) => item.id.toString()}
+                        data={categoryList.sort((c1, c2) => c2.number - c1.number)}
+                        renderItem={({ item }) => <CategoryScrollComponent category={item.name} />}
+                        keyExtractor={(item: Category) => item.name}
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
