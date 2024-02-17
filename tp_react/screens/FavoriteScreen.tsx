@@ -2,15 +2,13 @@ import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect} from "react";
 import {theme} from "../assets/Theme";
 import JokeListItem from "../components/JokeListComponent";
-import {useDispatch, useSelector} from "react-redux";
-import {getJokesList} from "../redux/actions/jokeActions";
-import {AppStore, Dispatch} from "../redux/store";
 import {SampleJoke} from "../model/SampleJoke";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
+import {getJokesList} from "../redux/thunks/jokeThunk";
 
 // Page for listing all favorite joke
 export default function FavoriteScreen() {
-    const jokesList = useAppSelector(state => state.jokeReducer.jokes);
+    const jokesList = useAppSelector(state => state.jokeReducer.jokes) as SampleJoke[];
 
     const dispatch = useAppDispatch();
     useEffect(() => {

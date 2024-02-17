@@ -1,21 +1,22 @@
 import React, {useEffect} from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import {
+    View,
+    FlatList,
+    StyleSheet,
+    TouchableOpacity
+} from 'react-native';
 import { SampleJoke } from '../model/SampleJoke';
-import {JokeStub} from "../model/JokeStub";
 import JokeListItem from "../components/JokeListComponent";
 import { theme } from "../assets/Theme";
-import {useDispatch, useSelector} from "react-redux";
-import {Dispatch} from "../redux/store";
 import {getJokesList} from "../redux/thunks/jokeThunk";
-
-const SAMPLE_JOKES : SampleJoke[] = JokeStub.sampleJokeStub();
+import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 
 // List of SampleJoke
-export default function CataloguePage(){
+export default function CataloguePage({navigation}){
     // @ts-ignore
-    const jokesList = useSelector(state => state.jokeReducer.jokes) as SampleJoke[];
+    const jokesList = useAppSelector(state => state.jokeReducer.jokes) as SampleJoke[];
 
-    const dispatch = useDispatch<Dispatch>();
+    const dispatch = useAppDispatch();
     useEffect(() => {
         const loadJokes = async () => {
             await dispatch(getJokesList());
@@ -27,8 +28,11 @@ export default function CataloguePage(){
         <View style={styles.container}>
             <FlatList
                 data={jokesList}
-                renderItem={({ item }) => <JokeListItem joke={item} />}
-                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) =>
+                    <TouchableOpacity onPress={() => navigation.navigate("Détails d'une blague", {"idJoke": item.id})}>
+                        <JokeListItem joke={item}/>
+                    </TouchableOpacity>
+            } keyExtractor={(item) => item.id.toString()}
             />
         </View>
     );

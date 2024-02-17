@@ -8,7 +8,7 @@ const reducer = {
     categoryReducer : categoryReducer
 }
 
-
+// Store creation with reducers
 // @ts-ignore
 const store = configureStore({
     reducer,
@@ -17,9 +17,5 @@ const store = configureStore({
             serializableCheck: false
         })
 },);
-
-
-export type AppStore = ReturnType<typeof store.getState>;
-export type Dispatch = typeof store.dispatch;
 
 export default store;

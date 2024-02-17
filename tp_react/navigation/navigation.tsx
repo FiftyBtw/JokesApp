@@ -2,15 +2,15 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from "../screens/SettingsScreen";
-import CatalogueScreen from "../screens/CatalogueScreen"
 import AddJokeScreen from "../screens/AddJokeScreen";
 import FavoriteScreen from "../screens/FavoriteScreen";
+import JokeNavigator from "./JokeNavigator";
 import {Image, View} from "react-native";
 import {theme} from "../assets/Theme";
 import React from "react";
 
 
-// This function is for the navigationç
+// This function is for the navigation
 export default function Navigation() {
     const BottomTabNavigator = createBottomTabNavigator();
     return (
@@ -38,12 +38,13 @@ export default function Navigation() {
                                                           style={{tintColor: focused ? theme.colors.darksalmonColor : theme.colors.purpleColor }}/>
                                                )
                                            }}/>
-                <BottomTabNavigator.Screen name="Catalogue" component={CatalogueScreen}
+                <BottomTabNavigator.Screen name="CatalogueStack" component={JokeNavigator}
                                            options={{
                                                   tabBarIcon: ({focused}) => (
                                                     <Image source={require('../assets/list_icon.png')}
                                                            style={{tintColor: focused ? theme.colors.darksalmonColor : theme.colors.purpleColor }}/>
-                                                  )
+                                                  ),
+                                               headerShown: false
                                            }}/>
                 <BottomTabNavigator.Screen name={"AddJoke"} component={AddJokeScreen}
                                            options={{

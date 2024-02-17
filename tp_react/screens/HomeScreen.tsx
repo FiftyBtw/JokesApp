@@ -3,23 +3,11 @@ import React, {useEffect,} from "react";
 import { theme } from '../assets/Theme';
 import JokeScrollItem from "../components/JokeScrollComponent";
 import {SampleJoke} from "../model/SampleJoke";
-import {JokeStub} from "../model/JokeStub";
 import CategoryScrollComponent from "../components/CategoryScrollComponent";
 import {Category} from "../model/Category";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getCategoriesList} from "../redux/thunks/categoryThunk";
 import {getLastJokes} from "../redux/thunks/jokeThunk";
-
-// List of all jokes
-const SAMPLE_JOKES : SampleJoke[] = JokeStub.sampleJokeStub();
-
-// List of all categories
-const uniqueCategories = Array.from(new Set(SAMPLE_JOKES.map(joke => joke.type)));
-const uniqueCategoriesData = uniqueCategories.map((category, index) => ({
-    id: index,
-    category: category
-}));
-
 
 // Home page of the App
 export default function HomeScreen() {
