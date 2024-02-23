@@ -5,15 +5,15 @@ interface State {
 }
 
 const initialState = {
-    error: ""
+    error: null
 }
 
 export const errorReducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
-        case ActionType.ADD_ERROR:
-            return {...state, error: action.payload};
-        case ActionType.RESET_ERROR :
-            return {...state, error: action.payload};
+        case 'SET_ERROR':
+            return { ...state, error: action.payload };
+        case 'CLEAR_ERROR':
+            return { ...state, error: null };
         default:
             return state;
     }

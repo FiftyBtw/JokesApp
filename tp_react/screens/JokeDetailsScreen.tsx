@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
     },
     actionContainer: {
         flexDirection: 'row',
+        justifyContent: 'flex-end',
         width: '100%',
     },
     favoriteButton: {
@@ -114,7 +115,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         justifyContent: 'center',
         paddingHorizontal: 25,
-        marginLeft: 110,
         marginRight: 20,
     },
     favoriteImage: {
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingVertical: 10,
         paddingHorizontal: 20,
+        width: "auto"
     },
     chuteButtonText: {
         color: theme.colors.whiteColor,

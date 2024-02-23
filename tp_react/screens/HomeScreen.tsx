@@ -7,28 +7,28 @@ import CategoryScrollComponent from "../components/CategoryScrollComponent";
 import {Category} from "../model/Category";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getCategoriesList} from "../redux/thunks/categoryThunk";
-import {getLastJokes} from "../redux/thunks/jokeThunk";
+import {getJokesList, getLastJokes} from "../redux/thunks/jokeThunk";
 
 // Home page of the App
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     const lastJokes  = useAppSelector((state) => state.jokeReducer.lastJokes) as SampleJoke[];
     const categoryList = useAppSelector(state => state.categoryReducer.categories);
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const loadJokes = async () => {
-            await dispatch(getLastJokes());
-        }
-        loadJokes().then(r => console.log("Last Jokes loaded"))
-    }, [dispatch]);
+        return navigation.addListener('focus', () => {
+            const loadJokes = async () => {
+                await dispatch(getLastJokes());
+            }
+            loadJokes().then(r => console.log("Last Jokes loaded"))
 
-    useEffect(() => {
-        const loadCategories = async () => {
-            await dispatch(getCategoriesList());
-        }
-        loadCategories().then(r => console.log("Categories loaded"))
-    }, [dispatch]);
+            const loadCategories = async () => {
+                await dispatch(getCategoriesList());
+            }
+            loadCategories().then(r => console.log("Categories loaded"))
+        });
+    }, [navigation]);
 
 
 

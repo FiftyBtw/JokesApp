@@ -7,9 +7,6 @@ import {Provider} from "react-redux";
 import ErrorComponent from "./components/ErrorComponent";
 
 
-
-//import {loadExtensions} from "./extensions";
-//loadExtensions()
 export default function App() {
   return (
       <>

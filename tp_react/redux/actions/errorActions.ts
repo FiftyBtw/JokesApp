@@ -1,15 +1,15 @@
 export enum ActionType {
-    ADD_ERROR = 'ADD_ERROR',
-    RESET_ERROR = 'RESET_ERROR'
+    SET_ERROR = 'SET_ERROR',
+    CLEAR_ERROR = 'CLEAR_ERROR'
 }
 
 interface actionAdd {
-    type: ActionType.ADD_ERROR;
+    type: ActionType.SET_ERROR;
     payload: string;
 }
 
 interface actionReset {
-    type: ActionType.RESET_ERROR;
+    type: ActionType.CLEAR_ERROR;
     payload: string;
 }
 
@@ -17,14 +17,14 @@ export type Action = actionAdd | actionReset ;
 
 export const setError = (error: string) => {
     return {
-        type: ActionType.ADD_ERROR,
+        type: ActionType.SET_ERROR,
         payload: error
     };
 }
 
-export const resetError = () => {
+export const clearError = () => {
     return {
-        type: ActionType.RESET_ERROR,
-        payload: ""
-    }
+        type: ActionType.CLEAR_ERROR,
+        payload: null
+    };
 }

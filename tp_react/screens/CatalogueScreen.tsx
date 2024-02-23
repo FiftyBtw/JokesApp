@@ -1,29 +1,25 @@
 import React, {useEffect} from 'react';
-import {
-    View,
-    FlatList,
-    StyleSheet,
-    TouchableOpacity
-} from 'react-native';
-import { SampleJoke } from '../model/SampleJoke';
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {SampleJoke} from '../model/SampleJoke';
 import JokeListItem from "../components/JokeListComponent";
-import { theme } from "../assets/Theme";
+import {theme} from "../assets/Theme";
 import {getJokesList} from "../redux/thunks/jokeThunk";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {AppRoute} from "../navigation/routes/AppRoute";
 
 // List of SampleJoke
 export default function CataloguePage({navigation}){
-    // @ts-ignore
     const jokesList = useAppSelector(state => state.jokeReducer.jokes) as SampleJoke[];
 
     const dispatch = useAppDispatch();
     useEffect(() => {
-        const loadJokes = async () => {
-            await dispatch(getJokesList());
-        }
-        loadJokes().then(r => console.log("Jokes loaded"))
-    }, [dispatch]);
+        return navigation.addListener('focus', () => {
+            const loadJokes = async () => {
+                await dispatch(getJokesList());
+            }
+            loadJokes().then(r => console.log("Jokes loaded"))
+        });
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
