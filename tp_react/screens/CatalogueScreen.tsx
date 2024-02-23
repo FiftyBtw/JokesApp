@@ -10,6 +10,7 @@ import JokeListItem from "../components/JokeListComponent";
 import { theme } from "../assets/Theme";
 import {getJokesList} from "../redux/thunks/jokeThunk";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
+import {AppRoute} from "../navigation/routes/AppRoute";
 
 // List of SampleJoke
 export default function CataloguePage({navigation}){
@@ -29,7 +30,7 @@ export default function CataloguePage({navigation}){
             <FlatList
                 data={jokesList}
                 renderItem={({ item }) =>
-                    <TouchableOpacity onPress={() => navigation.navigate("Détails d'une blague", {"idJoke": item.id})}>
+                    <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, {"idJoke": item.id})}>
                         <JokeListItem joke={item}/>
                     </TouchableOpacity>
             } keyExtractor={(item) => item.id.toString()}

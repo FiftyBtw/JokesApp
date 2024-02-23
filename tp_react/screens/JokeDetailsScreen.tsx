@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 10,
         marginBottom: 25,
+        resizeMode: "cover"
     },
     textContainer: {
         width: '100%',
