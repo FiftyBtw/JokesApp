@@ -1,10 +1,9 @@
-import {SampleJoke} from "../../model/SampleJoke";
 import {Joke} from "../../model/Joke";
-import {JokeFactory} from "../../model/JokeFactory";
 
 export enum ActionType {
     FETCH_JOKE = 'FETCH_JOKE',
-    FETCH_LAST_JOKE = 'FETCH_LAST_JOKE'
+    FETCH_LAST_JOKE = 'FETCH_LAST_JOKE',
+    FETCH_SELECTED_JOKE = "FETCH_SELECTED_JOKE"
 }
 
 interface actionFetch {
@@ -17,7 +16,12 @@ interface actionFetchLast {
     payload: Joke[];
 }
 
-export type Action = actionFetch | actionFetchLast;
+interface actionFetchSelected {
+    type: ActionType.FETCH_SELECTED_JOKE;
+    payload: Joke;
+}
+
+export type Action = actionFetch | actionFetchLast | actionFetchSelected;
 
 export const setJokesList = (jokesList: Joke[]) => {
     return {
@@ -31,4 +35,11 @@ export const setLastJokesList = (lastJokesList: Joke[]) => {
         type: ActionType.FETCH_LAST_JOKE,
         payload: lastJokesList,
     };
+}
+
+export const setSelectedJoke = (selectedJoke: Joke) => {
+    return {
+        type: ActionType.FETCH_SELECTED_JOKE,
+        payload: selectedJoke,
+    }
 }

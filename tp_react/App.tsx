@@ -4,11 +4,9 @@ import Navigation from "./navigation/navigation";
 import { theme } from "./assets/Theme";
 import store from "./redux/store";
 import {Provider} from "react-redux";
+import ErrorComponent from "./components/ErrorComponent";
 
 
-
-//import {loadExtensions} from "./extensions";
-//loadExtensions()
 export default function App() {
   return (
       <>
@@ -16,6 +14,7 @@ export default function App() {
               <SafeAreaView style={styles.container}>
                   <StatusBar style="light"/>
                   <Navigation/>
+                  <ErrorComponent/>
               </SafeAreaView>
           </Provider>
       </>

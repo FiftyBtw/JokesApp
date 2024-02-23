@@ -1,5 +1,4 @@
 import { Category} from "../../model/Category";
-import {CategoryFactory} from "../../model/CategoryFactory";
 
 export enum ActionType {
     FETCH_CATEGORIES = 'FETCH_CATEGORIES',

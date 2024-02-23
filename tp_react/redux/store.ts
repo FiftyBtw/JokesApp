@@ -1,25 +1,23 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {jokeReducer} from './reducers/jokeReducer'
 import {categoryReducer} from "./reducers/categoryReducer";
+import {errorReducer} from "./reducers/errorReducer";
 
 // Reference all application reducers
 const reducer = {
     jokeReducer : jokeReducer,
-    categoryReducer : categoryReducer
+    categoryReducer : categoryReducer,
+    errorReducer: errorReducer
 }
 
-
-// @ts-ignore
+// Store creation with reducers
 const store = configureStore({
+    // @ts-ignore
     reducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: false
         })
 },);
-
-
-export type AppStore = ReturnType<typeof store.getState>;
-export type Dispatch = typeof store.dispatch;
 
 export default store;

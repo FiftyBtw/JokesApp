@@ -1,34 +1,35 @@
 import React, {useEffect} from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import { SampleJoke } from '../model/SampleJoke';
-import {JokeStub} from "../model/JokeStub";
+import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {SampleJoke} from '../model/SampleJoke';
 import JokeListItem from "../components/JokeListComponent";
-import { theme } from "../assets/Theme";
-import {useDispatch, useSelector} from "react-redux";
-import {Dispatch} from "../redux/store";
+import {theme} from "../assets/Theme";
 import {getJokesList} from "../redux/thunks/jokeThunk";
-
-const SAMPLE_JOKES : SampleJoke[] = JokeStub.sampleJokeStub();
+import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
+import {AppRoute} from "../navigation/routes/AppRoute";
 
 // List of SampleJoke
-export default function CataloguePage(){
-    // @ts-ignore
-    const jokesList = useSelector(state => state.jokeReducer.jokes) as SampleJoke[];
+export default function CataloguePage({navigation}){
+    const jokesList = useAppSelector(state => state.jokeReducer.jokes) as SampleJoke[];
 
-    const dispatch = useDispatch<Dispatch>();
+    const dispatch = useAppDispatch();
     useEffect(() => {
-        const loadJokes = async () => {
-            await dispatch(getJokesList());
-        }
-        loadJokes().then(r => console.log("Jokes loaded"))
-    }, [dispatch]);
+        return navigation.addListener('focus', () => {
+            const loadJokes = async () => {
+                await dispatch(getJokesList());
+            }
+            loadJokes().then(r => console.log("Jokes loaded"))
+        });
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
             <FlatList
                 data={jokesList}
-                renderItem={({ item }) => <JokeListItem joke={item} />}
-                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) =>
+                    <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, {"idJoke": item.id})}>
+                        <JokeListItem joke={item}/>
+                    </TouchableOpacity>
+            } keyExtractor={(item) => item.id.toString()}
             />
         </View>
     );
