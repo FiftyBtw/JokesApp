@@ -1,6 +1,7 @@
 import {SampleJoke} from "../../model/SampleJoke";
-import {setJokesList, setLastJokesList, setSelectedJoke} from "../actions/jokeActions";
+import {setCustomJoke, setJokesList, setLastJokesList, setSelectedJoke} from "../actions/jokeActions";
 import {setError} from "../actions/errorActions";
+import {CustomJoke} from "../../model/CustomJoke";
 
 
 export const getJokesList = () => {
@@ -35,10 +36,17 @@ export const getLastJokes = () => {
     }
 }
 
-export const getSelectedJoke = (idJoke : string) => {
+export const getSelectedJoke = (idJoke: string, typeJoke: string) => {
     return async dispatch => {
         try{
-            const jokePromise = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/samples/${idJoke}`)
+            let jokePromise;
+
+            if (typeJoke === "sample") {
+                jokePromise = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/samples/${idJoke}`)
+            }
+            if (typeJoke === "custom"){
+                jokePromise = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/${idJoke}`)
+            }
             if (!jokePromise.ok) {
                 throw new Error("Error while fetching selected joke")
             }
@@ -49,3 +57,46 @@ export const getSelectedJoke = (idJoke : string) => {
         }
     }
 }
+
+export const getCustomJokes = () => {
+    return async dispatch => {
+        try {
+            const jokePromise = await fetch('https://iut-weather-api.azurewebsites.net/jokes');
+            if (!jokePromise.ok) {
+                throw new Error("Error while fetching custom jokes");
+            }
+            const jokeJson = await jokePromise.json();
+            const customJokeList = jokeJson.map(joke => new CustomJoke(joke["type"], joke["setup"], "", joke["image"], joke["id"]));
+            dispatch(setCustomJoke(customJokeList));
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    }
+}
+
+
+export const addJoke = (type: string, setup: string, punchline: string) => {
+    return async dispatch => {
+        try {
+            const response = await fetch('https://iut-weather-api.azurewebsites.net/jokes', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    type: type,
+                    setup: setup,
+                    punchline: punchline,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error while adding joke');
+            }
+
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+};

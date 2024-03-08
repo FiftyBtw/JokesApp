@@ -8,7 +8,7 @@ import {getJokesList} from "../redux/thunks/jokeThunk";
 
 // Page for listing all favorite joke
 export default function FavoriteScreen() {
-    const jokesList = useAppSelector(state => state.jokeReducer.jokes) as SampleJoke[];
+    const jokesList = useAppSelector(state => state.jokeReducer.sampleJokes) as SampleJoke[];
 
     const dispatch = useAppDispatch();
     useEffect(() => {
@@ -17,7 +17,6 @@ export default function FavoriteScreen() {
         }
         loadJokes().then(r => console.log("Jokes loaded"))
     }, [dispatch]);
-//bjsgd
     return (
         <View style={styles.container}>
             <FlatList

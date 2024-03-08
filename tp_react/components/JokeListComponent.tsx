@@ -2,9 +2,10 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {SampleJoke} from "../model/SampleJoke";
 import {theme} from "../assets/Theme";
+import {Joke} from "../model/Joke";
 
 type JokeItemProps = {
-    joke: SampleJoke;
+    joke: Joke;
 };
 
 // Composant servant à afficher une joke pour une liste verticale
@@ -41,7 +42,6 @@ const styles = StyleSheet.create({
     jokeItem: {
         flexDirection: 'row',
         marginHorizontal: '5%',
-        marginVertical: 10,
         backgroundColor: theme.colors.indigoColor,
         marginBottom: 10,
     },
@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
     },
     jokeImage: {
         width: '100%',
-        height: 150,
+        height: 120,
     }
 });
