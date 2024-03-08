@@ -8,13 +8,14 @@ import {theme} from "../assets/Theme";
 // Joke Details Screen
 export default function JokeDetailsScreen({route}) {
     const idJoke = route.params.idJoke;
+    const typeJoke = route.params.typeJoke;
     const selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke) as SampleJoke;
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         const loadJoke = async () => {
-            await dispatch(getSelectedJoke(idJoke));
+            await dispatch(getSelectedJoke(idJoke, typeJoke));
         }
         loadJoke().then(r => console.log("Joke selected"))
     }, [dispatch]);

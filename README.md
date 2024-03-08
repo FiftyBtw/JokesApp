@@ -106,7 +106,7 @@ You can run the app on your phone using Expo Go or on your computer using an emu
     - [x] Jokes Data
     - [x] User interface with display of jokes
 - [x] Link API
-- [ ] Add a joke 
+- [x] Add a joke 
 - [ ] Delete a joke created
 - [ ] Add a joke to favorites
 - [ ] Delete a joke from favorites

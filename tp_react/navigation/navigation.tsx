@@ -50,11 +50,11 @@ export default function Navigation() {
                                            }}/>
                 <BottomTabNavigator.Screen name={AppRoute.ADD} component={AddJokeScreen}
                                            options={{
-                                               title: "Add Joke",
+                                               title: "Ajout d'une blague",
                                               tabBarIcon: ({focused}) => (
-                                                  <View style={{backgroundColor: theme.colors.greyColor, padding: 14, borderRadius: 5}}>
+                                                  <View style={{backgroundColor: focused ? theme.colors.darksalmonColor : theme.colors.greyColor, padding: 14, borderRadius: 5}}>
                                                       <Image source={require('../assets/add_icon.png')}
-                                                       style={{tintColor: focused ? theme.colors.darksalmonColor : theme.colors.purpleColor, height: 25, width: 25 }}/>
+                                                       style={{tintColor: theme.colors.purpleColor, height: 25, width: 25 }}/>
                                                   </View>
                                               )
                                            }}/>
