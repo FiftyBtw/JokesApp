@@ -1,15 +1,15 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
-import {SampleJoke} from "../model/SampleJoke";
 import {useEffect, useState} from "react";
-import {getSelectedJoke} from "../redux/thunks/jokeThunk";
-import {theme} from "../assets/Theme";
+import {deleteJoke, getSelectedJoke} from "../redux/thunks/jokeThunk";
+import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 
 // Joke Details Screen
-export default function JokeDetailsScreen({route}) {
+export default function JokeDetailsScreen({route, navigation}) {
+    const styles = useDynamicStyles();
     const idJoke = route.params.idJoke;
     const typeJoke = route.params.typeJoke;
-    const selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke) as SampleJoke;
+    const selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke);
 
     const dispatch = useAppDispatch();
 
@@ -17,7 +17,7 @@ export default function JokeDetailsScreen({route}) {
         const loadJoke = async () => {
             await dispatch(getSelectedJoke(idJoke, typeJoke));
         }
-        loadJoke().then(r => console.log("Joke selected"))
+        loadJoke();
     }, [dispatch]);
 
     const [showPunchline, setShowPunchline] = useState(false);
@@ -31,13 +31,29 @@ export default function JokeDetailsScreen({route}) {
         setFavorite(!favorite);
     }
 
+    const showDeleteButton = (typeJoke === 'custom');
+
+    const deleteJokeCustom = () => {
+        try {
+            dispatch(deleteJoke(idJoke));
+            navigation.goBack();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.jokeDetailsContainer}>
+                {showDeleteButton && (
+                    <TouchableOpacity style={styles.deleteButton} onPress={deleteJokeCustom}>
+                        <Text style={styles.deleteButtonText}>X</Text>
+                    </TouchableOpacity>
+                )}
                 <Image source={{ uri: selectedJoke.image }} style={styles.image} />
                 <View style={styles.textContainer}>
                     <View style={styles.chipContainer}>
-                        <Text>{selectedJoke.type}</Text>
+                        <Text style={styles.chipText}>{selectedJoke.type}</Text>
                     </View>
                     <Text style={styles.description}>{selectedJoke.setup}</Text>
                 </View>
@@ -62,91 +78,115 @@ export default function JokeDetailsScreen({route}) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.purpleColor,
-        alignItems: 'center',
-    },
-    jokeDetailsContainer: {
-        backgroundColor: theme.colors.indigoColor,
-        padding: 20,
-        borderRadius: 20,
-        alignItems: 'center',
-        width: '95%',
-        marginVertical: 20,
-        borderColor: theme.colors.whiteColor,
-        borderWidth: 1,
-    },
-    image: {
-        width: '100%',
-        height: 200,
-        borderRadius: 10,
-        marginBottom: 25,
-        resizeMode: "cover"
-    },
-    textContainer: {
-        width: '100%',
-        alignItems: 'flex-start',
-        marginBottom: 20,
-    },
-    chipContainer: {
-        backgroundColor: theme.colors.whiteColor,
-        borderRadius: 20,
-        paddingVertical: 5,
-        paddingHorizontal: 15,
-        alignSelf: 'flex-start',
-        marginBottom: 25,
-    },
-    description: {
-        color: theme.colors.purpleColor,
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    actionContainer: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        width: '100%',
-    },
-    favoriteButton: {
-        backgroundColor: theme.colors.indigoColor,
-        borderRadius: 5,
-        borderColor: theme.colors.whiteColor,
-        borderWidth: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 25,
-        marginRight: 20,
-    },
-    favoriteImage: {
-        width: 30,
-        height: 30,
-        tintColor: theme.colors.darksalmonColor,
-    },
-    chuteButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: theme.colors.darksalmonColor,
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        width: "auto"
-    },
-    chuteButtonText: {
-        color: theme.colors.whiteColor,
-        marginLeft: 10,
-        fontWeight: 'bold',
-    },
-    eyeIcon: {
-        width: 24,
-        height: 24,
-        tintColor: theme.colors.whiteColor,
-    },
-    punchline: {
-        alignSelf: 'flex-start',
-        color: theme.colors.purpleColor,
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginTop: 30,
-    }
-});
+const useDynamicStyles = () => {
+    const appTheme = useAppSelector(state => state.themeReducer.theme);
+    const currentTheme = appTheme ? DarkTheme : LightTheme;
+    return StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: currentTheme.colors.background,
+            alignItems: 'center',
+        },
+        jokeDetailsContainer: {
+            backgroundColor: currentTheme.colors.cardSecondary,
+            padding: 20,
+            borderRadius: 20,
+            alignItems: 'center',
+            width: '95%',
+            marginVertical: 20,
+            borderColor: currentTheme.colors.border,
+            borderWidth: 1,
+        },
+        image: {
+            width: '100%',
+            height: 200,
+            borderRadius: 10,
+            marginBottom: 25,
+            resizeMode: "cover"
+        },
+        textContainer: {
+            width: '100%',
+            alignItems: 'flex-start',
+            marginBottom: 20,
+        },
+        chipContainer: {
+            backgroundColor: currentTheme.colors.chipSecondary,
+            borderRadius: 20,
+            paddingVertical: 5,
+            paddingHorizontal: 15,
+            alignSelf: 'flex-start',
+            marginBottom: 25,
+        },
+        chipText: {
+            color: currentTheme.colors.text,
+        },
+        description: {
+            color: currentTheme.colors.textSecondary,
+            fontSize: 16,
+            fontWeight: 'bold',
+            marginBottom: 10,
+        },
+        actionContainer: {
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+            width: '100%',
+        },
+        favoriteButton: {
+            backgroundColor: currentTheme.colors.primary,
+            borderRadius: 5,
+            borderColor: currentTheme.colors.border,
+            borderWidth: 1,
+            justifyContent: 'center',
+            paddingHorizontal: 25,
+            marginRight: 20,
+        },
+        favoriteImage: {
+            width: 30,
+            height: 30,
+            tintColor: theme.colors.darksalmonColor,
+        },
+        chuteButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: theme.colors.darksalmonColor,
+            borderRadius: 5,
+            paddingVertical: 10,
+            paddingHorizontal: 20,
+            width: "auto"
+        },
+        chuteButtonText: {
+            color: theme.colors.whiteColor,
+            marginLeft: 10,
+            fontWeight: 'bold',
+        },
+        eyeIcon: {
+            width: 24,
+            height: 24,
+            tintColor: theme.colors.whiteColor,
+        },
+        punchline: {
+            alignSelf: 'flex-start',
+            color: currentTheme.colors.textSecondary,
+            fontSize: 16,
+            fontWeight: 'bold',
+            marginTop: 30,
+        },
+        deleteButton: {
+            position: 'absolute',
+            top: -7,
+            right: -7,
+            backgroundColor: theme.colors.darksalmonColor,
+            borderRadius: 15,
+            width: 30,
+            height: 30,
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 10,
+        },
+        deleteButtonText: {
+            color: theme.colors.whiteColor,
+            fontSize: 16,
+            fontWeight: 'bold',
+        },
+    })
+}

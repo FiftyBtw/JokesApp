@@ -31,6 +31,8 @@ export const jokeReducer = (state: State = initialState, action: Action) => {
             return {...state, customJokes: action.payload}
         case ActionType.ADD_JOKE:
             return {...state, customJokes: action.payload}
+        case ActionType.DELETE_JOKE:
+            return {...state, customJokes: action.payload}
         default:
             return state;
     }

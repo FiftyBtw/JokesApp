@@ -7,6 +7,7 @@ export enum ActionType {
     FETCH_LAST_JOKE = 'FETCH_LAST_JOKE',
     FETCH_SELECTED_JOKE = "FETCH_SELECTED_JOKE",
     ADD_JOKE = "ADD_JOKE",
+    DELETE_JOKE = "DELETE_JOKE",
 }
 
 interface actionFetch {
@@ -34,7 +35,12 @@ interface actionAddJoke {
     payload: Joke;
 }
 
-export type Action = actionFetch | actionFetchLast | actionFetchSelected | actionFetchCustom | actionAddJoke;
+interface actionDeleteJoke {
+    type: ActionType.DELETE_JOKE;
+    payload: Joke;
+}
+
+export type Action = actionFetch | actionFetchLast | actionFetchSelected | actionFetchCustom | actionAddJoke | actionDeleteJoke;
 
 export const setJokesList = (jokesList: Joke[]) => {
     return {
@@ -61,12 +67,5 @@ export const setCustomJoke = (customJoke: Joke) => {
     return {
         type: ActionType.FETCH_CUSTOM_JOKE,
         payload: customJoke,
-    }
-}
-
-export const addJoke = (joke: Joke) => {
-    return {
-        type: ActionType.ADD_JOKE,
-        payload: joke,
     }
 }

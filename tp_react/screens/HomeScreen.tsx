@@ -1,36 +1,31 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
-import React, {useEffect,} from "react";
-import { theme } from '../assets/Theme';
+import React, {useEffect, useMemo,} from "react";
+import { theme, LightTheme, DarkTheme } from '../assets/Theme';
 import JokeScrollItem from "../components/JokeScrollComponent";
-import {SampleJoke} from "../model/SampleJoke";
 import CategoryScrollComponent from "../components/CategoryScrollComponent";
-import {Category} from "../model/Category";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getCategoriesList} from "../redux/thunks/categoryThunk";
-import {getJokesList, getLastJokes} from "../redux/thunks/jokeThunk";
+import {getLastJokes} from "../redux/thunks/jokeThunk";
+import {useTheme} from "@react-navigation/native";
 
 // Home page of the App
 export default function HomeScreen({navigation}) {
-    const lastJokes  = useAppSelector((state) => state.jokeReducer.lastJokes) as SampleJoke[];
+    const lastJokes  = useAppSelector((state) => state.jokeReducer.lastJokes);
     const categoryList = useAppSelector(state => state.categoryReducer.categories);
+    const styles = useDynamicStyles();
 
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
-            const loadJokes = async () => {
-                await dispatch(getLastJokes());
-            }
-            loadJokes().then(r => console.log("Last Jokes loaded"))
-
-            const loadCategories = async () => {
-                await dispatch(getCategoriesList());
-            }
-            loadCategories().then(r => console.log("Categories loaded"))
+            dispatch(getLastJokes());
+            dispatch(getCategoriesList());
         });
-    }, [navigation]);
+    }, [navigation, dispatch]);
 
-
+    const sortedCategories = useMemo(() => {
+        return [...categoryList].sort((c1, c2) => c2.number - c1.number);
+    }, [categoryList]);
 
     return (
         <View style={styles.container}>
@@ -62,9 +57,9 @@ export default function HomeScreen({navigation}) {
                 <View style={styles.categoryContainer}>
                     <FlatList
                         horizontal={true}
-                        data={categoryList.sort((c1, c2) => c2.number - c1.number)}
+                        data={sortedCategories}
                         renderItem={({ item }) => <CategoryScrollComponent category={item.name} />}
-                        keyExtractor={(item: Category) => item.name}
+                        keyExtractor={(item) => item.name}
                         showsHorizontalScrollIndicator={false}
                     />
                 </View>
@@ -74,28 +69,31 @@ export default function HomeScreen({navigation}) {
     );
 };
 
-const styles = StyleSheet.create({
-
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.purpleColor,
-    },
-    centered: {
-        alignItems: 'center',
-        paddingBottom: 60,
-    },
-    appName: {
-        fontSize: 24,
-        color: theme.colors.darksalmonColor,
-        fontWeight: 'bold',
-    },
-    titleCategories: {
-        fontSize: 20,
-        color: theme.colors.whiteColor,
-        fontWeight: 'bold',
-        paddingLeft: 15
-    },
-    categoryContainer: {
-        marginTop: 25,
-    }
-});
+const useDynamicStyles = () => {
+    const appTheme = useAppSelector(state => state.themeReducer.theme);
+    const currentTheme = appTheme ? DarkTheme : LightTheme;
+    return StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: currentTheme.colors.background
+        },
+        centered: {
+            alignItems: 'center',
+            paddingBottom: 60,
+        },
+        appName: {
+            fontSize: 24,
+            color: theme.colors.darksalmonColor,
+            fontWeight: 'bold',
+        },
+        titleCategories: {
+            fontSize: 20,
+            color: currentTheme.colors.title,
+            fontWeight: 'bold',
+            paddingLeft: 15
+        },
+        categoryContainer: {
+            marginTop: 25,
+        }
+    })
+}

@@ -1,43 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SampleJoke } from '../model/SampleJoke';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import JokeListItem from "../components/JokeListComponent";
-import { theme } from "../assets/Theme";
-import { getCustomJokes, getJokesList } from "../redux/thunks/jokeThunk";
-import { useAppDispatch, useAppSelector } from "../hooks/redux-hook";
-import { AppRoute } from "../navigation/routes/AppRoute";
-import { CustomJoke } from "../model/CustomJoke";
+import {DarkTheme, LightTheme, theme} from "../assets/Theme";
+import {getCustomJokes, getJokesList} from "../redux/thunks/jokeThunk";
+import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
+import {AppRoute} from "../navigation/routes/AppRoute";
 
 export default function CataloguePage({ navigation }) {
-    const sampleJokes = useAppSelector(state => state.jokeReducer.sampleJokes) as SampleJoke[];
-    const customJokes = useAppSelector(state => state.jokeReducer.customJokes) as CustomJoke[];
-
     const dispatch = useAppDispatch();
+    const sampleJokes = useAppSelector(state => state.jokeReducer.sampleJokes);
+    const customJokes = useAppSelector(state => state.jokeReducer.customJokes);
+    const styles = useDynamicStyles();
 
     useEffect(() => {
         return navigation.addListener('focus', () => {
-            const loadSampleJokes = async () => {
-                await dispatch(getJokesList());
-            }
-            loadSampleJokes().then(r => console.log("SampleJokes loaded"))
+            dispatch(getJokesList());
+            dispatch(getCustomJokes());
         });
-    }, [navigation]);
-
-    useEffect(() => {
-        return navigation.addListener('focus', () => {
-            const loadCustomJokes = async () => {
-                await dispatch(getCustomJokes());
-            }
-            loadCustomJokes().then(r => console.log("CustomJokes loaded"))
-        });
-    }, [navigation]);
+    }, [navigation, dispatch]);
 
     const [showSample, setShowSample] = useState(true);
-    const togglePunchline = () => {
-        setShowSample(!showSample);
-    };
+    const togglePunchline = () => setShowSample(!showSample);
 
     const dataToShow = showSample ? sampleJokes : customJokes;
+    const typeJoke = showSample ? "sample" : "custom";
 
     return (
         <View style={styles.container}>
@@ -50,50 +36,30 @@ export default function CataloguePage({ navigation }) {
                     />
                 </TouchableOpacity>
             </View>
-            {showSample ? (
-                <FlatList
-                    data={sampleJokes}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { "idJoke": item.id, "typeJoke": showSample ? "sample" : "custom" })}>
-                            <JokeListItem joke={item} />
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={(item) => item.id.toString()}
-                />
-            ) : (
-                <FlatList
-                    data={customJokes}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { "idJoke": item.id, "typeJoke": showSample ? "sample" : "custom" })}>
-                            <JokeListItem joke={item} />
-                        </TouchableOpacity>
-                    )}
-                    keyExtractor={(item) => item.id}
-                />
-            )}
+            <FlatList
+                data={dataToShow}
+                renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { idJoke: item.id, typeJoke })}>
+                        <JokeListItem joke={item} />
+                    </TouchableOpacity>
+                )}
+                keyExtractor={(item) => item.id.toString()}
+                getItemLayout={(data, index) =>
+                    ({ length: 100, offset: 100 * index, index })
+                }
+            />
         </View>
     );
 };
 
-const styles = StyleSheet.create({
+
+const useDynamicStyles = () => {
+    const appTheme = useAppSelector(state => state.themeReducer.theme);
+    const currentTheme = appTheme ? DarkTheme : LightTheme;
+    return StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.purpleColor,
-    },
-    centered: {
-        alignItems: 'center',
-        backgroundColor: theme.colors.indigoColor,
-        padding: 10
-    },
-    title: {
-        fontSize: 24,
-        color: theme.colors.darksalmonColor,
-        fontWeight: 'bold',
-    },
-    eyeIcon: {
-        width: 20,
-        height: 20,
-        tintColor: theme.colors.whiteColor
+        backgroundColor: currentTheme.colors.background,
     },
     sampleButton: {
         backgroundColor: theme.colors.darksalmonColor,
@@ -110,7 +76,13 @@ const styles = StyleSheet.create({
     },
     sampleText: {
         fontSize: 20,
-        color: theme.colors.whiteColor,
+        color: currentTheme.colors.title,
         fontWeight: 'bold',
-    }
-});
+    },
+    eyeIcon: {
+        width: 20,
+        height: 20,
+        tintColor: theme.colors.whiteColor
+    },
+})
+}
