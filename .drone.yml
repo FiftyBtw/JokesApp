@@ -1,0 +1,17 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: sonar-analyses
+    image: hub.codefirst.iut.uca.fr/camille.petitalot/drone-sonarplugin-reactnative:latest
+    environment:
+      sonar_host: https://codefirst.iut.uca.fr/sonar/
+      sonar_token:
+        from_secret: SECRET_SONAR_LOGIN
+      project_key: JokesApp
+    commands:
+      - cd Source
+      - npm install
+      - sonar-scanner -Dsonar.projectKey=$${project_key} -Dsonar.sources=. -Dsonar.host.url=$${sonar_host}
+        -Dsonar.login=$${sonar_token}
