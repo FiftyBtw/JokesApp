@@ -100,3 +100,21 @@ export const addJoke = (type: string, setup: string, punchline: string) => {
         }
     };
 };
+
+
+export const deleteJoke = (id: string) => {
+    return async dispatch => {
+        try {
+            const response = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Error while deleting joke');
+            }
+
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+};

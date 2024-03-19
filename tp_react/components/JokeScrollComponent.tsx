@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {SampleJoke} from "../model/SampleJoke";
-import {theme} from "../assets/Theme";
+import {DarkTheme, LightTheme, theme} from "../assets/Theme";
+import {useAppSelector} from "../hooks/redux-hook";
 
 type JokeItemProps = {
     joke: SampleJoke;
@@ -9,6 +10,7 @@ type JokeItemProps = {
 
 // Composant servant à afficher une joke pour une liste Horizontale
 export default function JokeListItem(props: JokeItemProps) {
+    const styles = useDynamicStyles();
     return (
         <View style={{paddingLeft: 10}}>
             <View style={styles.jokeItem}>
@@ -23,40 +25,43 @@ export default function JokeListItem(props: JokeItemProps) {
         </View>
     )
 }
+const useDynamicStyles = () => {
+    const appTheme = useAppSelector(state => state.themeReducer.theme);
+    const currentTheme = appTheme ? DarkTheme : LightTheme;
+    return StyleSheet.create({
 
-const styles = StyleSheet.create({
+        rectangle: {
+            borderRadius: 4,
+            flexShrink: 0,
+            width: "100%",
+            height: "20%",
+            backgroundColor: 'darksalmon',
+        },
+        jokeItem: {
+            flexDirection: 'column',
+            alignItems: 'center',
+            backgroundColor: currentTheme.colors.card,
+            margin: 10,
+            height: 190,
+            width: 210,
+            borderRadius: 5,
 
-    rectangle: {
-        borderRadius: 4,
-        flexShrink: 0,
-        width: "100%",
-        height: "20%",
-        backgroundColor: 'darksalmon',
-    },
-    jokeItem: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        backgroundColor: theme.colors.indigoColor,
-        margin: 10,
-        height: 190,
-        width: 210,
-        borderRadius: 5,
-
-    },
-    jokeDetails :{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 50,
-    },
-    jokeSummary: {
-        textAlign: 'center',
-        color: "white",
-    },
-    jokeImage: {
-        width: '60%',
-        height: 90,
-        position: 'absolute',
-        margin: 5,
-    }
-});
+        },
+        jokeDetails: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingTop: 50,
+        },
+        jokeSummary: {
+            textAlign: 'center',
+            color: "white",
+        },
+        jokeImage: {
+            width: '60%',
+            height: 90,
+            position: 'absolute',
+            margin: 5,
+        }
+    })
+}

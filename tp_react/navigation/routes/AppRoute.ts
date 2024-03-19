@@ -3,6 +3,6 @@ export enum AppRoute{
     CATALOGUE = "CATALOGUE",
     DETAILS = "DETAILS",
     ADD = "ADD",
-    FAVORITES = "FAVORITES",
+    FAVORITES = "FAVORIS",
     SETTINGS = "SETTINGS"
 }
