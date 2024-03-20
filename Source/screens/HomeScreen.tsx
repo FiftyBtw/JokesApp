@@ -6,7 +6,6 @@ import CategoryScrollComponent from "../components/CategoryScrollComponent";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getCategoriesList} from "../redux/thunks/categoryThunk";
 import {getLastJokes} from "../redux/thunks/jokeThunk";
-import {useTheme} from "@react-navigation/native";
 
 // Home page of the App
 export default function HomeScreen({navigation}) {

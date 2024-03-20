@@ -3,17 +3,17 @@ export enum ActionType {
     CLEAR_ERROR = 'CLEAR_ERROR'
 }
 
-interface actionAdd {
+interface ActionAdd {
     type: ActionType.SET_ERROR;
     payload: string;
 }
 
-interface actionReset {
+interface ActionReset {
     type: ActionType.CLEAR_ERROR;
     payload: string;
 }
 
-export type Action = actionAdd | actionReset ;
+export type Action = ActionAdd | ActionReset ;
 
 export const setError = (error: string) => {
     return {

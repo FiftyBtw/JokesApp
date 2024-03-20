@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import {SampleJoke} from "../model/SampleJoke";
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {Joke} from "../model/Joke";
 import {useAppSelector} from "../hooks/redux-hook";

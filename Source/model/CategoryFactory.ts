@@ -6,12 +6,10 @@ export class CategoryFactory {
     // This method creates an array of Category objects from a return JSON API.
     public static createCategory(jsonArray: []) {
         let categories: Category[] = [];
-        for (let i = 0; i < jsonArray.length; i++) {
-            let category = new Category(jsonArray[i]["name"], jsonArray[i]["number"])
+        for (let item of jsonArray) {
+            let category = new Category(item["name"], item["number"]);
             categories.push(category);
         }
         return categories;
-
-        //return jsonArray.map((category) => new Category(category["name"], category["number"]));
     }
 }

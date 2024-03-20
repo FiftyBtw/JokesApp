@@ -1,6 +1,6 @@
 import {FlatList, StyleSheet, View} from "react-native";
 import React, {useEffect} from "react";
-import {DarkTheme, LightTheme, theme} from "../assets/Theme";
+import {DarkTheme, LightTheme} from "../assets/Theme";
 import JokeListItem from "../components/JokeListComponent";
 import {SampleJoke} from "../model/SampleJoke";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {SampleJoke} from "../model/SampleJoke";
-import {DarkTheme, LightTheme, theme} from "../assets/Theme";
+import {DarkTheme, LightTheme} from "../assets/Theme";
 import {useAppSelector} from "../hooks/redux-hook";
 
 type JokeItemProps = {

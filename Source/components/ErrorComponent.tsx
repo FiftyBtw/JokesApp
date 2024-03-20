@@ -10,8 +10,8 @@ export default function ErrorComponent() {
     const dispatch = useDispatch();
     const error = useAppSelector(state => state.errorReducer.error);
 
--    useEffect(() => {
-        if (error != null) {
+    useEffect(() => {
+        if (error) {
             setModalVisible(true);
         }
     }, [error]);

@@ -4,12 +4,12 @@ export enum ActionType {
     FETCH_CATEGORIES = 'FETCH_CATEGORIES',
 }
 
-interface actionFetch {
+interface ActionFetch {
     type: ActionType.FETCH_CATEGORIES;
     payload: Category[];
 }
 
-export type Action = actionFetch;
+export type Action = ActionFetch;
 
 export const setCategoriesList = (categoriesList: Category[]) => {
     return {

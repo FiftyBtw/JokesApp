@@ -1,10 +1,9 @@
-import {SafeAreaView} from "react-native";
+import {SafeAreaView, StyleSheet} from "react-native";
 import { StatusBar } from 'expo-status-bar';
 import Navigation from "../navigation/navigation";
 import ErrorComponent from "../components/ErrorComponent";
 import {DarkTheme, LightTheme} from "../assets/Theme";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
-import {StyleSheet} from 'react-native';
 import {useEffect} from "react";
 import {getTheme} from "../redux/thunks/themeThunk";
 

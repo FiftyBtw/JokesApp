@@ -1,8 +1,7 @@
-import {View, Text, Switch, StyleSheet, Image} from "react-native";
+import {View, Text, Switch, StyleSheet} from "react-native";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {storeTheme} from "../redux/thunks/themeThunk";
-import {useTheme} from "@react-navigation/native";
 
 // Settings page
 export default function SettingsScreen() {

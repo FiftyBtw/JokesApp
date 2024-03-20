@@ -2,12 +2,12 @@ export enum ActionType{
     SWITCH_THEME = 'SWITCH_THEME',
 }
 
-interface actionSwitchTheme {
+interface ActionSwitchTheme {
     type: ActionType.SWITCH_THEME;
     payload: boolean;
 }
 
-export type Action = actionSwitchTheme;
+export type Action = ActionSwitchTheme;
 
 export const switchTheme = (theme: boolean) => {
     return {

@@ -1,4 +1,4 @@
-import {NavigationContainer, useTheme} from "@react-navigation/native";
+import {NavigationContainer} from "@react-navigation/native";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from "../screens/SettingsScreen";
