@@ -1,41 +1,61 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {useEffect, useState} from "react";
-import {deleteJoke, getSelectedJoke} from "../redux/thunks/jokeThunk";
+import {
+    addFavoriteJoke,
+    deleteJoke, getFavoriteJokes,
+    getSelectedJoke,
+    removeFavoriteJoke
+} from "../redux/thunks/jokeThunk";
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 
 // Joke Details Screen
 export default function JokeDetailsScreen({route, navigation}) {
     const styles = useDynamicStyles();
-    const idJoke = route.params.idJoke;
-    const typeJoke = route.params.typeJoke;
-    const selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke);
-
     const dispatch = useAppDispatch();
+    const typeJoke = route.params.typeJoke;
+    const idJoke = route.params.joke.id;
+    let selectedJoke = route.params.joke;
+    const favoriteJokes = useAppSelector(state => state.jokeReducer.favoritesJokes);
+
+    const [favorite, setFavorite] = useState(false);
+
+    if (typeJoke !== "favorite") {
+        selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke);
+
+        useEffect(() => {
+            dispatch(getSelectedJoke(idJoke, typeJoke));
+        }, [navigation, dispatch]);
+    }
 
     useEffect(() => {
-        const loadJoke = async () => {
-            await dispatch(getSelectedJoke(idJoke, typeJoke));
+        dispatch(getFavoriteJokes());
+        if (favoriteJokes.length > 0) {
+            setFavorite(favoriteJokes.some(joke => joke.id === idJoke));
         }
-        loadJoke();
-    }, [dispatch]);
+    }, [navigation, dispatch]);
 
     const [showPunchline, setShowPunchline] = useState(false);
     const togglePunchline = () => {
         setShowPunchline(!showPunchline);
     };
 
-    const [favorite, setFavorite] = useState(false);
-
     const toggleFavorite = () => {
-        setFavorite(!favorite);
+        if (selectedJoke) {
+            console.log(selectedJoke, favorite);
+            if (favorite) {
+                dispatch(removeFavoriteJoke(selectedJoke));
+            } else {
+                dispatch(addFavoriteJoke(selectedJoke));
+                console.log(favoriteJokes);
+            }
+            setFavorite(!favorite);
+        }
     }
-
-    const showDeleteButton = (typeJoke === 'custom');
 
     const deleteJokeCustom = () => {
         try {
-            dispatch(deleteJoke(idJoke));
+            dispatch(deleteJoke(selectedJoke));
             navigation.goBack();
         } catch (error) {
             console.log(error);
@@ -45,34 +65,38 @@ export default function JokeDetailsScreen({route, navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.jokeDetailsContainer}>
-                {showDeleteButton && (
-                    <TouchableOpacity style={styles.deleteButton} onPress={deleteJokeCustom}>
-                        <Text style={styles.deleteButtonText}>X</Text>
-                    </TouchableOpacity>
+                {selectedJoke && (
+                    <>
+                        {typeJoke == "custom" && (
+                            <TouchableOpacity style={styles.deleteButton} onPress={deleteJokeCustom}>
+                                <Text style={styles.deleteButtonText}>X</Text>
+                            </TouchableOpacity>
+                        )}
+                        <Image source={{uri:selectedJoke.image}} style={styles.image} />
+                        <View style={styles.textContainer}>
+                            <View style={styles.chipContainer}>
+                                <Text style={styles.chipText}>{selectedJoke.type}</Text>
+                            </View>
+                            <Text style={styles.description}>{selectedJoke.setup}</Text>
+                        </View>
+                        <View style={styles.actionContainer}>
+                            <TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
+                                <Image
+                                    source={favorite ? require('../assets/plain_favorite_icon.png') : require('../assets/favorite_icon.png')}
+                                    style={styles.favoriteImage}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.chuteButton} onPress={togglePunchline}>
+                                <Image
+                                    source={showPunchline ? require('../assets/eye_off_icon.png') : require('../assets/eye_icon.png')}
+                                    style={styles.eyeIcon}
+                                />
+                                <Text style={styles.chuteButtonText}>LA CHUTE</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
                 )}
-                <Image source={{ uri: selectedJoke.image }} style={styles.image} />
-                <View style={styles.textContainer}>
-                    <View style={styles.chipContainer}>
-                        <Text style={styles.chipText}>{selectedJoke.type}</Text>
-                    </View>
-                    <Text style={styles.description}>{selectedJoke.setup}</Text>
-                </View>
-                <View style={styles.actionContainer}>
-                    <TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
-                        <Image
-                            source={favorite ? require('../assets/plain_favorite_icon.png') : require('../assets/favorite_icon.png')}
-                            style={styles.favoriteImage}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.chuteButton} onPress={togglePunchline}>
-                        <Image
-                            source={showPunchline ? require('../assets/eye_off_icon.png') : require('../assets/eye_icon.png')}
-                            style={styles.eyeIcon}
-                        />
-                        <Text style={styles.chuteButtonText}>LA CHUTE</Text>
-                    </TouchableOpacity>
-                </View>
-                {showPunchline && <Text style={styles.punchline}>{selectedJoke.punchline}</Text>}
+                {showPunchline && <Text style={styles.punchline}>{selectedJoke?.punchline}</Text>}
             </View>
         </View>
     );
@@ -118,7 +142,8 @@ const useDynamicStyles = () => {
             marginBottom: 25,
         },
         chipText: {
-            color: currentTheme.colors.text,
+            color: currentTheme.colors.background,
+            fontWeight: 'bold',
         },
         description: {
             color: currentTheme.colors.textSecondary,

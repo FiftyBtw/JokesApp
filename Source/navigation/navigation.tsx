@@ -4,12 +4,13 @@ import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from "../screens/SettingsScreen";
 import AddJokeScreen from "../screens/AddJokeScreen";
 import FavoriteScreen from "../screens/FavoriteScreen";
-import JokeNavigator from "./JokeNavigator";
+import CatalogueNavigator from "./CatalogueNavigator";
 import {Image, StyleSheet, View} from "react-native";
 import {theme, DarkTheme, LightTheme} from "../assets/Theme";
 import React from "react";
 import {AppRoute} from "./routes/AppRoute";
 import {useAppSelector} from "../hooks/redux-hook";
+import FavoriteNavigator from "./FavoriteNavigator";
 
 
 // This function is for the navigation
@@ -52,7 +53,7 @@ export default function Navigation() {
                                                       style={{tintColor: focused ? styles.focus.tintColor : styles.iconColor.tintColor }}/>
                                                )
                                            }}/>
-                <BottomTabNavigator.Screen name="CatalogueStack" component={JokeNavigator}
+                <BottomTabNavigator.Screen name="CatalogueStack" component={CatalogueNavigator}
                                            options={{
                                                   tabBarIcon: ({focused}) => (
                                                     <Image source={require('../assets/list_icon.png')}
@@ -70,13 +71,14 @@ export default function Navigation() {
                                                   </View>
                                               )
                                            }}/>
-                <BottomTabNavigator.Screen name={AppRoute.FAVORITES} component={FavoriteScreen}
+                <BottomTabNavigator.Screen name={"FavoriteStack"} component={FavoriteNavigator}
                                            options={{
                                                title: "Favoris",
                                                 tabBarIcon: ({focused}) => (
                                                     <Image source={require('../assets/favorite_icon.png')}
                                                        style={{tintColor: focused ? styles.focus.tintColor : styles.iconColor.tintColor }}/>
-                                                )
+                                                ),
+                                               headerShown: false
                                            }}/>
                 <BottomTabNavigator.Screen name={AppRoute.SETTINGS} component={SettingsScreen}
                                            options={{

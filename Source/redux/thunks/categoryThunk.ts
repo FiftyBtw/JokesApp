@@ -12,6 +12,7 @@ export const getCategoriesList = () => {
             }
             const categoryListJson = await categoryPromise.json()
             dispatch(setCategoriesList(CategoryFactory.createCategory(categoryListJson)))
+            dispatch(getCategoriesList())
         }catch(error){
             dispatch(setError(error.message))
         }

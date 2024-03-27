@@ -18,7 +18,7 @@ const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            immutableCheck: false,
+            immutableCheck: { warnAfter: 48 },
             serializableCheck: false
         })
 },);

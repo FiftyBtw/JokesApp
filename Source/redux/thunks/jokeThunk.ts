@@ -1,7 +1,15 @@
 import {SampleJoke} from "../../model/SampleJoke";
-import {setCustomJoke, setJokesList, setLastJokesList, setSelectedJoke} from "../actions/jokeActions";
+import {
+    setFavoriteJoke,
+    setCustomJoke,
+    setJokesList,
+    setLastJokesList,
+    setSelectedJoke
+} from "../actions/jokeActions";
 import {setError} from "../actions/errorActions";
 import {CustomJoke} from "../../model/CustomJoke";
+import {Joke} from "../../model/Joke";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export const getJokesList = () => {
@@ -58,6 +66,7 @@ export const getSelectedJoke = (idJoke: string, typeJoke: string) => {
     }
 }
 
+
 export const getCustomJokes = () => {
     return async dispatch => {
         try {
@@ -94,7 +103,8 @@ export const addJoke = (type: string, setup: string, punchline: string) => {
             if (!response.ok) {
                 throw new Error('Error while adding joke');
             }
-
+            dispatch(getLastJokes())
+            dispatch(getCustomJokes())
         } catch (error) {
             dispatch(setError(error.message));
         }
@@ -102,17 +112,74 @@ export const addJoke = (type: string, setup: string, punchline: string) => {
 };
 
 
-export const deleteJoke = (id: string) => {
+export const deleteJoke = (joke: CustomJoke) => {
     return async dispatch => {
         try {
-            const response = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/${id}`, {
+            const response = await fetch(`https://iut-weather-api.azurewebsites.net/jokes/${joke.id}`, {
                 method: 'DELETE',
             });
 
             if (!response.ok) {
                 throw new Error('Error while deleting joke');
             }
+            dispatch(removeFavoriteJoke(joke))
+            dispatch(getLastJokes())
+            dispatch(getCustomJokes())
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+};
 
+export const addFavoriteJoke = (joke: Joke) => {
+    return async dispatch => {
+        try {
+            const favoriteJokes = await AsyncStorage.getItem('favorites');
+            const favoriteJokesList = favoriteJokes != null ? JSON.parse(favoriteJokes) : [];
+            favoriteJokesList.push(joke);
+            await AsyncStorage.setItem('favorites', JSON.stringify(favoriteJokesList));
+            const favorites = favoriteJokesList.map(joke => new SampleJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+            dispatch(setFavoriteJoke(favorites));
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+};
+
+export const removeFavoriteJoke = (joke: SampleJoke | CustomJoke) => {
+    return async dispatch => {
+        try {
+            let favorites : SampleJoke[] | CustomJoke[] = [];
+            const favoriteJokes = await AsyncStorage.getItem('favorites');
+            const favoriteJokesList = favoriteJokes != null ? JSON.parse(favoriteJokes) : [];
+            for (joke of favoriteJokesList) {
+                if (typeof joke.id === "number") {
+                    favorites = favoriteJokesList.map(joke => new SampleJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+                }
+                else {
+                    if (typeof joke.id === "string") {
+                        favorites = favoriteJokesList.map(joke => new CustomJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+                    }
+                }
+            }
+            const newFavoriteJokesList = favorites.filter(j => j.id !== joke.id);
+            await AsyncStorage.setItem('favorites', JSON.stringify(newFavoriteJokesList));
+            dispatch(setFavoriteJoke(newFavoriteJokesList));
+        } catch (error) {
+            dispatch(setError(error.message));
+        }
+    };
+};
+
+export const getFavoriteJokes = () => {
+    return async dispatch => {
+        try {
+            const favoriteJokes = await AsyncStorage.getItem('favorites');
+            let favoriteJokesList = favoriteJokes != null ? JSON.parse(favoriteJokes) : [];
+            favoriteJokesList = favoriteJokesList.filter(joke => joke.id !== undefined);
+            await AsyncStorage.setItem('favorites', JSON.stringify(favoriteJokesList));
+            const favorites = favoriteJokesList.map(joke => new SampleJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+            dispatch(setFavoriteJoke(favorites));
         } catch (error) {
             dispatch(setError(error.message));
         }
