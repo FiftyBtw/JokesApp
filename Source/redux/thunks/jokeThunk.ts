@@ -146,23 +146,23 @@ export const addFavoriteJoke = (joke: Joke) => {
     };
 };
 
-export const removeFavoriteJoke = (joke: SampleJoke | CustomJoke) => {
+export const removeFavoriteJoke = (jokeItem: SampleJoke | CustomJoke) => {
     return async dispatch => {
         try {
             let favorites : SampleJoke[] | CustomJoke[] = [];
             const favoriteJokes = await AsyncStorage.getItem('favorites');
             const favoriteJokesList = favoriteJokes != null ? JSON.parse(favoriteJokes) : [];
-            for (joke of favoriteJokesList) {
-                if (typeof joke.id === "number") {
-                    favorites = favoriteJokesList.map(joke => new SampleJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+            for (jokeItem of favoriteJokesList) {
+                if (typeof jokeItem.id === "number") {
+                    favorites = favoriteJokesList.map(jokeItem => new SampleJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"]))
                 }
                 else {
-                    if (typeof joke.id === "string") {
-                        favorites = favoriteJokesList.map(joke => new CustomJoke(joke["type"], joke["setup"], joke["punchline"], joke["image"], joke["id"]))
+                    if (typeof jokeItem.id === "string") {
+                        favorites = favoriteJokesList.map(jokeItem => new CustomJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"]))
                     }
                 }
             }
-            const newFavoriteJokesList = favorites.filter(j => j.id !== joke.id);
+            const newFavoriteJokesList = favorites.filter(j => j.id !== jokeItem.id);
             await AsyncStorage.setItem('favorites', JSON.stringify(newFavoriteJokesList));
             dispatch(setFavoriteJoke(newFavoriteJokesList));
         } catch (error) {

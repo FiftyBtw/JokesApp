@@ -5,17 +5,17 @@ import {JokeListItem} from "../components/JokeListComponent";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getFavoriteJokes} from "../redux/thunks/jokeThunk";
 import {AppRoute} from "../navigation/routes/AppRoute";
+import {CustomJoke} from "../model/CustomJoke";
+import {SampleJoke} from "../model/SampleJoke";
 
 // Page for listing all favorite jokes
 export default function FavoriteScreen({navigation}) {
-    const favoriteList = useAppSelector(state => state.jokeReducer.favoritesJokes);
+    const favoriteList = useAppSelector(state => state.jokeReducer.favoritesJokes) as [SampleJoke, CustomJoke];
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(getFavoriteJokes());
     }, [dispatch]);
-    console.log("je passe ici");
-    console.log(favoriteList);
 
     const styles = useDynamicStyles();
 

@@ -8,6 +8,8 @@ import {
     removeFavoriteJoke
 } from "../redux/thunks/jokeThunk";
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
+import {SampleJoke} from "../model/SampleJoke";
+import {CustomJoke} from "../model/CustomJoke";
 
 // Joke Details Screen
 export default function JokeDetailsScreen({route, navigation}) {
@@ -15,39 +17,40 @@ export default function JokeDetailsScreen({route, navigation}) {
     const dispatch = useAppDispatch();
     const typeJoke = route.params.typeJoke;
     const idJoke = route.params.joke.id;
-    let selectedJoke = route.params.joke;
-    const favoriteJokes = useAppSelector(state => state.jokeReducer.favoritesJokes);
+    let selectedJoke = typeJoke === "favorite" ? route.params.joke : useAppSelector(state => state.jokeReducer.selectedJoke);
+    const favoriteJokes = useAppSelector(state => state.jokeReducer.favoritesJokes) as [SampleJoke, CustomJoke]
 
     const [favorite, setFavorite] = useState(false);
+    const [showPunchline, setShowPunchline] = useState(false);
 
-    if (typeJoke !== "favorite") {
-        selectedJoke = useAppSelector(state => state.jokeReducer.selectedJoke);
-
-        useEffect(() => {
+    useEffect(() => {
+        if (typeJoke !== "favorite") {
             dispatch(getSelectedJoke(idJoke, typeJoke));
-        }, [navigation, dispatch]);
-    }
+        }
+    }, [typeJoke, idJoke, dispatch, navigation]);
 
     useEffect(() => {
         dispatch(getFavoriteJokes());
         if (favoriteJokes.length > 0) {
             setFavorite(favoriteJokes.some(joke => joke.id === idJoke));
         }
-    }, [navigation, dispatch]);
+    }, [navigation, dispatch, idJoke]);
 
-    const [showPunchline, setShowPunchline] = useState(false);
-    const togglePunchline = () => {
-        setShowPunchline(!showPunchline);
-    };
+    // Hook to refresh favorite if the value changes in another screen
+    useEffect(() => {
+        if (favoriteJokes.length > 0) {
+            setFavorite(favoriteJokes.some(joke => joke.id === idJoke));
+        }
+    }, [favoriteJokes, idJoke]);
+
+    const togglePunchline = () => setShowPunchline(!showPunchline);
 
     const toggleFavorite = () => {
         if (selectedJoke) {
-            console.log(selectedJoke, favorite);
             if (favorite) {
                 dispatch(removeFavoriteJoke(selectedJoke));
             } else {
                 dispatch(addFavoriteJoke(selectedJoke));
-                console.log(favoriteJokes);
             }
             setFavorite(!favorite);
         }

@@ -3,7 +3,6 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HomeScreen from '../screens/HomeScreen'
 import SettingsScreen from "../screens/SettingsScreen";
 import AddJokeScreen from "../screens/AddJokeScreen";
-import FavoriteScreen from "../screens/FavoriteScreen";
 import CatalogueNavigator from "./CatalogueNavigator";
 import {Image, StyleSheet, View} from "react-native";
 import {theme, DarkTheme, LightTheme} from "../assets/Theme";
