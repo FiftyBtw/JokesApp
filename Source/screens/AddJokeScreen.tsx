@@ -20,10 +20,7 @@ export default function AddJokeScreen() {
     const dispatch = useAppDispatch();
     const handleCreateButtonPress = () => {
         if (joke.trim() !== '' && jokeFall.trim() !== '' && category.trim() !== '') {
-            console.log(joke, jokeFall, category)
-
             if (dispatch(addJoke(category, joke, jokeFall))) {
-                console.log("toto")
                 handleEraseButtonPress()
             }
         }

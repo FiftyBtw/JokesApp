@@ -11,16 +11,14 @@ import {getLastJokes} from "../redux/thunks/jokeThunk";
 export default function HomeScreen({navigation}) {
     const lastJokes  = useAppSelector((state) => state.jokeReducer.lastJokes);
     const categoryList = useAppSelector(state => state.categoryReducer.categories);
+    const error = useAppSelector(state => state.errorReducer.error)
     const styles = useDynamicStyles();
-
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        return navigation.addListener('focus', () => {
-            dispatch(getLastJokes());
-            dispatch(getCategoriesList());
-        });
-    }, [navigation, dispatch]);
+        dispatch(getLastJokes());
+        dispatch(getCategoriesList());
+    }, [navigation, dispatch, error]);
 
     const sortedCategories = useMemo(() => {
         return [...categoryList].sort((c1, c2) => c2.number - c1.number);
@@ -42,7 +40,7 @@ export default function HomeScreen({navigation}) {
                     horizontal={true}
                     data={lastJokes}
                     renderItem={({ item  }) => <JokeScrollItem joke={item} />}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item) => item.id?.toString()}
                     showsHorizontalScrollIndicator={false}
                 />
             </View>

@@ -38,17 +38,18 @@ Application dedicated to learning React Native allowing you to make those around
 
 </div>
 
+<!-- PROJECT SHIELDS -->
 <div align="center">
-
 <h3 align="center">Code Quality</h3>
-[![Bugs](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=bugs&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Code Smells](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=code_smells&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Coverage](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=coverage&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Maintainability Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=sqale_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Quality Gate Status](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=alert_status&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Reliability Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=reliability_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Security Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=security_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
-[![Vulnerabilities](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=vulnerabilities&token=b8865792e52b62e6cc7112afee193890f47de14a)](https://codefirst.iut.uca.fr/sonar/dashboard?id=JokesApp)
+
+![Bugs](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=bugs&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Code Smells](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=code_smells&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Coverage](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=coverage&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Maintainability Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=sqale_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Quality Gate Status](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=alert_status&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Reliability Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=reliability_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Security Rating](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=security_rating&token=b8865792e52b62e6cc7112afee193890f47de14a)
+![Vulnerabilities](https://codefirst.iut.uca.fr/sonar/api/project_badges/measure?project=JokesApp&metric=vulnerabilities&token=b8865792e52b62e6cc7112afee193890f47de14a)
 
 </div>
 
@@ -123,8 +124,8 @@ You can run the app on your phone using Expo Go or on your computer using an emu
 - [x] Add a joke 
 - [x] Delete a joke created
 - [x] Theme management
-- [ ] Add a joke to favorites
-- [ ] Delete a joke from favorites
+- [x] Add a joke to favorites
+- [x] Delete a joke from favorites
 - [ ] Unit tests with Jest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
