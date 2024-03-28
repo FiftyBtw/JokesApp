@@ -1,7 +1,7 @@
-import {Action, ActionType} from "../actions/jokeActions";
 import {Joke} from "../../model/Joke";
 import {SampleJoke} from "../../model/SampleJoke";
 import {CustomJoke} from "../../model/CustomJoke";
+import {Action, ActionType} from "../actions/jokeActions";
 
 interface State {
     selectedJoke: any;
@@ -16,7 +16,7 @@ const initialState = {
     customJokes: [],
     favoritesJokes: [],
     lastJokes: [],
-    selectedJoke: Joke
+    selectedJoke: null
 }
 
 export const jokeReducer = (state: State = initialState, action: Action) => {
@@ -27,12 +27,20 @@ export const jokeReducer = (state: State = initialState, action: Action) => {
             return {...state, lastJokes: action.payload};
         case ActionType.FETCH_SELECTED_JOKE:
             return {...state, selectedJoke: action.payload}
+        case ActionType.CLEAR_SELECTED_JOKE:
+            return {...state, selectedJoke: null}
         case ActionType.FETCH_CUSTOM_JOKE:
             return {...state, customJokes: action.payload}
         case ActionType.ADD_JOKE:
             return {...state, customJokes: action.payload}
         case ActionType.DELETE_JOKE:
             return {...state, customJokes: action.payload}
+        case ActionType.ADD_JOKE_TO_FAVORITE:
+            return {...state, favoritesJokes: action.payload}
+        case ActionType.DELETE_JOKE_FROM_FAVORITE:
+            return {...state, favoritesJokes: action.payload}
+        case ActionType.FETCH_FAVORITE_JOKE:
+            return {...state, favoritesJokes: action.payload}
         default:
             return state;
     }

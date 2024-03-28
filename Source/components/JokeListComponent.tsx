@@ -9,7 +9,7 @@ type JokeItemProps = {
 };
 
 // Composant servant à afficher une joke pour une liste verticale
-export default function JokeListItem(props: JokeItemProps) {
+export const JokeListItem = React.memo(function JokeListItem(props: JokeItemProps) {
     const styles = useDynamicStyles();
     return (
         <View>
@@ -32,7 +32,7 @@ export default function JokeListItem(props: JokeItemProps) {
             </View>
         </View>
     );
-}
+});
 
 const useDynamicStyles = () => {
     const appTheme = useAppSelector(state => state.themeReducer.theme);
@@ -64,20 +64,21 @@ const useDynamicStyles = () => {
             padding: 3,
             justifyContent: "center",
             alignSelf: "baseline",
-            marginLeft: 4
+            marginLeft: 4,
         },
         chip: {
             color: currentTheme.colors.title,
             padding: 5,
             marginLeft: 2,
-            marginRight: 2
+            marginRight: 2,
         },
         jokeImageContainer: {
             width: '40%',
+            height: 120,
         },
         jokeImage: {
-            width: '100%',
-            height: 120,
+            height: '100%',
+            resizeMode: 'cover',
         }
     })
 }

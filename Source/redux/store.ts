@@ -18,9 +18,13 @@ const store = configureStore({
     reducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            immutableCheck: false,
+            immutableCheck: { warnAfter: 48 },
             serializableCheck: false
         })
-},);
+});
+
+export type AppStore = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

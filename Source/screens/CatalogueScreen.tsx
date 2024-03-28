@@ -1,25 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import JokeListItem from "../components/JokeListComponent";
+import {JokeListItem} from '../components/JokeListComponent';
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {getCustomJokes, getJokesList} from "../redux/thunks/jokeThunk";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {AppRoute} from "../navigation/routes/AppRoute";
+import {clearSelectedJoke} from "../redux/actions/jokeActions";
 
 export default function CataloguePage({ navigation }) {
     const dispatch = useAppDispatch();
     const sampleJokes = useAppSelector(state => state.jokeReducer.sampleJokes);
     const customJokes = useAppSelector(state => state.jokeReducer.customJokes);
+    const error = useAppSelector(state => state.errorReducer.error)
     const styles = useDynamicStyles();
+    const [showSample, setShowSample] = useState(true);
 
     useEffect(() => {
-        return navigation.addListener('focus', () => {
-            dispatch(getJokesList());
-            dispatch(getCustomJokes());
+        showSample ? dispatch(getJokesList()) : dispatch(getCustomJokes());
+        navigation.addListener('focus', () => {
+            dispatch(clearSelectedJoke());
         });
-    }, [navigation, dispatch]);
+    }, [dispatch, showSample, error, navigation]);
 
-    const [showSample, setShowSample] = useState(true);
     const togglePunchline = () => setShowSample(!showSample);
 
     const dataToShow = showSample ? sampleJokes : customJokes;
@@ -36,18 +38,26 @@ export default function CataloguePage({ navigation }) {
                     />
                 </TouchableOpacity>
             </View>
-            <FlatList
-                data={dataToShow}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { idJoke: item.id, typeJoke })}>
-                        <JokeListItem joke={item} />
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                getItemLayout={(data, index) =>
-                    ({ length: 100, offset: 100 * index, index })
-                }
-            />
+            {dataToShow.length > 0 ? (
+                <FlatList
+                    data={dataToShow}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { joke: item, typeJoke })}>
+                            <JokeListItem joke={item} />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item.id.toString()}
+                    getItemLayout={(data, index) => (
+                        { length: 100, offset: 100 * index, index }
+                    )}
+                    initialNumToRender={6}
+                    maxToRenderPerBatch={6}
+                />
+            ) : (
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <Text style={styles.noData}>Aucune {typeJoke} joke trouvée</Text>
+                </View>
+            )}
         </View>
     );
 };
@@ -83,6 +93,12 @@ const useDynamicStyles = () => {
         width: 20,
         height: 20,
         tintColor: theme.colors.whiteColor
+    },
+    noData: {
+        textAlign: 'center',
+        color: currentTheme.dark ? currentTheme.colors.whiteColor : currentTheme.colors.textSecondary,
+        fontSize: 20,
+        marginTop: 20,
     },
 })
 }

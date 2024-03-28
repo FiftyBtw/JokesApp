@@ -16,7 +16,7 @@ export abstract class Joke {
 
     // This method returns a summary of the joke with a maximum of 25 characters.
     public summary() : string {
-        return this._setup.substring(0, 25) + '...';
+        return this._setup?.substring(0, 25) + '...';
     }
 
     // This method returns a description of the joke.

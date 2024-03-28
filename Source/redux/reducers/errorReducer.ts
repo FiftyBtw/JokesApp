@@ -10,9 +10,9 @@ const initialState = {
 
 export const errorReducer = (state: State = initialState, action: Action) => {
     switch (action.type) {
-        case 'SET_ERROR':
+        case ActionType.SET_ERROR:
             return { ...state, error: action.payload };
-        case 'CLEAR_ERROR':
+        case ActionType.CLEAR_ERROR:
             return { ...state, error: null };
         default:
             return state;

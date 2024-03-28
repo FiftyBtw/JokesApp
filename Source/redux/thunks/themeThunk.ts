@@ -18,7 +18,7 @@ export const getTheme = () => {
     return async dispatch => {
         try {
             const jsonTheme = await AsyncStorage.getItem('theme');
-            return jsonTheme != null ? JSON.parse(jsonTheme) : useTheme().dark;
+            dispatch(switchTheme(jsonTheme != null ? JSON.parse(jsonTheme) : useTheme().dark));
         } catch (e) {
             console.log("An error occurred", e);
         }

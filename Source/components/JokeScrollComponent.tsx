@@ -62,6 +62,7 @@ const useDynamicStyles = () => {
             height: 90,
             position: 'absolute',
             margin: 5,
+            resizeMode: 'cover'
         }
     })
 }
