@@ -152,13 +152,14 @@ export const removeFavoriteJoke = (jokeItem: SampleJoke | CustomJoke) => {
             let favorites : SampleJoke[] | CustomJoke[] = [];
             const favoriteJokes = await AsyncStorage.getItem('favorites');
             const favoriteJokesList = favoriteJokes != null ? JSON.parse(favoriteJokes) : [];
+            let jokeItem: { id: string | number; };
             for (jokeItem of favoriteJokesList) {
                 if (typeof jokeItem.id === "number") {
-                    favorites = favoriteJokesList.map(jokeItem => new SampleJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"]))
+                    favorites = favoriteJokesList.map((jokeItem => new SampleJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"])))
                 }
                 else {
                     if (typeof jokeItem.id === "string") {
-                        favorites = favoriteJokesList.map(jokeItem => new CustomJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"]))
+                        favorites = favoriteJokesList.map((jokeItem => new CustomJoke(jokeItem["type"], jokeItem["setup"], jokeItem["punchline"], jokeItem["image"], jokeItem["id"])))
                     }
                 }
             }
