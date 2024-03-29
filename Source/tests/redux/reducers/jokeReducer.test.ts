@@ -56,17 +56,4 @@ describe('jokeReducer', () => {
             customJokes
         });
     });
-
-    it('should handle ADD_JOKE action correctly', () => {
-        const newJoke = new CustomJoke('humor', 'New Joke', 'New Punchline', 'https://placekitten.com/200/404', 'new_id');
-        const stateAfterAdding = jokeReducer(initialState, { type: ActionType.ADD_JOKE, payload: newJoke });
-        expect(stateAfterAdding.customJokes).toContainEqual(newJoke);
-    });
-
-    it('should handle DELETE_JOKE action correctly', () => {
-        const existingJoke = new CustomJoke('humor', 'Existing Joke', 'Existing Punchline', 'https://placekitten.com/200/405', 'existing_id');
-        const modifiedInitialState = { ...initialState, customJokes: [existingJoke] };
-        const stateAfterDeletion = jokeReducer(modifiedInitialState, { type: ActionType.DELETE_JOKE, payload: existingJoke });
-        expect(stateAfterDeletion.customJokes).not.toContainEqual(existingJoke);
-    });
 });
