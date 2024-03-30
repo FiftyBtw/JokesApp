@@ -1,25 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {JokeListItem} from '../components/JokeListComponent';
+import {JokeItemFlatListComponent} from '../components/JokeItemFlatListComponent';
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {getCustomJokes, getJokesList} from "../redux/thunks/jokeThunk";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {AppRoute} from "../navigation/routes/AppRoute";
-import {clearSelectedJoke} from "../redux/actions/jokeActions";
+import {CustomJoke} from "../model/CustomJoke";
 
 export default function CataloguePage({ navigation }) {
     const dispatch = useAppDispatch();
     const sampleJokes = useAppSelector(state => state.jokeReducer.sampleJokes);
-    const customJokes = useAppSelector(state => state.jokeReducer.customJokes);
+    const customJokes = useAppSelector(state => state.jokeReducer.customJokes) as CustomJoke[];
     const error = useAppSelector(state => state.errorReducer.error)
     const styles = useDynamicStyles();
     const [showSample, setShowSample] = useState(true);
 
     useEffect(() => {
         showSample ? dispatch(getJokesList()) : dispatch(getCustomJokes());
-        navigation.addListener('focus', () => {
-            dispatch(clearSelectedJoke());
-        });
     }, [dispatch, showSample, error, navigation]);
 
     const togglePunchline = () => setShowSample(!showSample);
@@ -40,10 +37,10 @@ export default function CataloguePage({ navigation }) {
             </View>
             {dataToShow.length > 0 ? (
                 <FlatList
-                    data={dataToShow}
+                    data={dataToShow as any}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { joke: item, typeJoke })}>
-                            <JokeListItem joke={item} />
+                            <JokeItemFlatListComponent joke={item} />
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.id.toString()}

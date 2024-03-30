@@ -10,7 +10,7 @@ interface ActionAdd {
 
 interface ActionReset {
     type: ActionType.CLEAR_ERROR;
-    payload: string;
+    payload: null;
 }
 
 export type Action = ActionAdd | ActionReset ;
