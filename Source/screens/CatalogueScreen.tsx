@@ -5,7 +5,6 @@ import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {getCustomJokes, getJokesList} from "../redux/thunks/jokeThunk";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {AppRoute} from "../navigation/routes/AppRoute";
-import {clearSelectedJoke} from "../redux/actions/jokeActions";
 import {CustomJoke} from "../model/CustomJoke";
 
 export default function CataloguePage({ navigation }) {
@@ -18,9 +17,6 @@ export default function CataloguePage({ navigation }) {
 
     useEffect(() => {
         showSample ? dispatch(getJokesList()) : dispatch(getCustomJokes());
-        navigation.addListener('focus', () => {
-            dispatch(clearSelectedJoke());
-        });
     }, [dispatch, showSample, error, navigation]);
 
     const togglePunchline = () => setShowSample(!showSample);
@@ -41,7 +37,7 @@ export default function CataloguePage({ navigation }) {
             </View>
             {dataToShow.length > 0 ? (
                 <FlatList
-                    data={dataToShow}
+                    data={dataToShow as any}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { joke: item, typeJoke })}>
                             <JokeListItem joke={item} />

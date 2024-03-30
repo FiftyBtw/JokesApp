@@ -1,6 +1,12 @@
 import {describe, expect, it} from "@jest/globals";
 import {Joke} from "../../../model/Joke";
-import {ActionType, setCustomJoke, setJokesList, setSelectedJoke} from "../../../redux/actions/jokeActions";
+import {
+    ActionType,
+    setCustomJoke, setFavoriteJoke,
+    setJokesList,
+    setLastJokesList,
+    setSelectedJoke
+} from "../../../redux/actions/jokeActions";
 import {CustomJoke} from "../../../model/CustomJoke";
 import {SampleJoke} from "../../../model/SampleJoke";
 
@@ -39,5 +45,34 @@ describe('Joke Actions', () => {
         };
 
         expect(setCustomJoke(customJoke)).toEqual(expectedAction);
+    });
+
+    it('should create an action to set the last jokes list', () => {
+        const jokes: Joke[] = [
+            new SampleJoke('general', 'Why did the chicken cross the road?', 'To get to the other side!', 'https://placekitten.com/200/403', 1),
+            new CustomJoke('programming', 'Why do programmers prefer dark mode?', 'Because light attracts bugs!', 'https://placekitten.com/200/404', "2"),
+        ];
+
+        const expectedAction = {
+            type: ActionType.FETCH_LAST_JOKE,
+            payload: jokes,
+        };
+
+        expect(setLastJokesList(jokes)).toEqual(expectedAction);
+    });
+
+    //setFavoriteJoke
+    it('should create an action to set the favorite jokes list', () => {
+        const jokes: Joke[] = [
+            new SampleJoke('general', 'Why did the chicken cross the road?', 'To get to the other side!', 'https://placekitten.com/200/403', 1),
+            new CustomJoke('programming', 'Why do programmers prefer dark mode?', 'Because light attracts bugs!', 'https://placekitten.com/200/404', "2"),
+        ];
+
+        const expectedAction = {
+            type: ActionType.FETCH_FAVORITE_JOKE,
+            payload: jokes,
+        };
+
+        expect(setFavoriteJoke(jokes)).toEqual(expectedAction);
     });
 });

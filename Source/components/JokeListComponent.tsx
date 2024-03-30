@@ -19,13 +19,19 @@ export const JokeListItem = React.memo(function JokeListItem(props: JokeItemProp
                 <View style={styles.jokeImageContainer}>
                     <Image
                         style={styles.jokeImage}
-                        source={{ uri: props.joke.image }}/>
+                        source={{ uri: props.joke.image }}
+                        testID="jokeImage"
+                    />
                 </View>
                 <View style={styles.jokeDetails}>
-                    <Text style={styles.jokeSummary}>{props.joke.summary()}</Text>
+                    <Text style={styles.jokeSummary} testID="jokeSummary">
+                        {props.joke.summary()}
+                    </Text>
                     <View>
                         <View style={styles.jokeType}>
-                            <Text style={styles.chip}>{props.joke.type}</Text>
+                            <Text style={styles.chip} testID="jokeType">
+                                {props.joke.type}
+                            </Text>
                         </View>
                     </View>
                 </View>

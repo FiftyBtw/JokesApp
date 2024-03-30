@@ -3,6 +3,7 @@ import {jokeReducer} from "../../../redux/reducers/jokeReducer";
 import {describe, expect, it} from "@jest/globals";
 import {SampleJoke} from "../../../model/SampleJoke";
 import {CustomJoke} from "../../../model/CustomJoke";
+import {Joke} from "../../../model/Joke";
 
 describe('jokeReducer', () => {
     const initialState = {
@@ -56,4 +57,16 @@ describe('jokeReducer', () => {
             customJokes
         });
     });
+
+    it('should handle FETCH_FAVORITE_JOKE action', () => {
+        const favoriteJokes: Joke[] = [
+            new SampleJoke('general', 'What do you get when you cross a snowman with a vampire?', 'Frostbite.', 'https://placekitten.com/200/300', 4),
+            new CustomJoke('humor', 'How do you organize a space party?', 'You planet.', 'https://placekitten.com/210/310', 'space_party_id')
+        ];
+        expect(jokeReducer(initialState, { type: ActionType.FETCH_FAVORITE_JOKE, payload: favoriteJokes})).toEqual({
+            ...initialState,
+            favoritesJokes: favoriteJokes
+        });
+    });
+
 });

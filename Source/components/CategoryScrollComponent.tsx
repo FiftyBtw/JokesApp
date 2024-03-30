@@ -1,16 +1,16 @@
 import {Text, View, StyleSheet} from "react-native";
 import {theme} from "../assets/Theme";
 
-type JokeItemProps = {
+type CategoryItemProps = {
     category: string;
 };
 
 
 // Composant servant à afficher une catégorie sous forme de chip
-export default function CategoryScrollComponent(props : JokeItemProps) {
+export default function CategoryScrollComponent(props : CategoryItemProps) {
     return (
         <View style={styles.categoryContainer}>
-            <Text style={styles.categoryChip}>{props.category}</Text>
+            <Text style={styles.categoryChip} testID="category-chip">{props.category}</Text>
         </View>
     );
 }
