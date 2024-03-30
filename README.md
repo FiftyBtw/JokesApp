@@ -126,7 +126,7 @@ You can run the app on your phone using Expo Go or on your computer using an emu
 - [x] Theme management
 - [x] Add a joke to favorites
 - [x] Delete a joke from favorites
-- [ ] Unit tests with Jest
+- [x] Unit tests with Jest
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
