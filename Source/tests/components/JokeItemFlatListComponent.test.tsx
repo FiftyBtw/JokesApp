@@ -20,10 +20,22 @@ const renderWithRedux = (component, initialState) => {
 };
 
 describe('JokeItemFlatListComponent', () => {
-    it('renders correctly', () => {
+    it('renders correctly (light)', () => {
         renderWithRedux(<JokeItemFlatListComponent joke={mockJoke} />, {
             themeReducer: {
                 theme: false,
+            },
+        });
+
+        expect(screen.getByTestId('jokeImage')).toHaveProp('source', { uri: mockJoke.image });
+        expect(screen.getByTestId('jokeSummary')).toHaveTextContent(mockJoke.summary());
+        expect(screen.getByTestId('jokeType')).toHaveTextContent(mockJoke.type);
+    });
+
+    it('renders correctly (dark)', () => {
+        renderWithRedux(<JokeItemFlatListComponent joke={mockJoke} />, {
+            themeReducer: {
+                theme: true,
             },
         });
 

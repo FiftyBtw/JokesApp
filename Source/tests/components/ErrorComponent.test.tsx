@@ -52,7 +52,7 @@ describe('ErrorComponent', () => {
     it('should close the modal and clear the error when close button is pressed', () => {
         const store = renderComponentWithRedux(<ErrorComponent />, {
             errorReducer: { error: 'Test Error Message' },
-            themeReducer: { theme: false },
+            themeReducer: { theme: true },
         });
 
         expect(screen.getByTestId('error-modal')).toBeTruthy();

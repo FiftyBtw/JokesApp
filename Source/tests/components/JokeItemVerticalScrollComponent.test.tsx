@@ -21,10 +21,21 @@ const renderWithRedux = (component, initialState) => {
 };
 
 describe('JokeItemVerticalScrollComponent', () => {
-    it('renders correctly with given joke data', () => {
+    it('renders correctly with a joke (light)', () => {
         renderWithRedux(<JokeItemVerticalScrollComponent joke={mockJoke} />, {
             themeReducer: {
                 theme: false,
+            },
+        });
+
+        expect(screen.getByTestId('jokeImage-scroll')).toHaveProp('source', { uri: mockJoke.image });
+        expect(screen.getByTestId('jokeSummary-scroll')).toHaveTextContent(mockJoke.summary());
+    });
+
+    it('renders correctly with a joke (dark)', () => {
+        renderWithRedux(<JokeItemVerticalScrollComponent joke={mockJoke} />, {
+            themeReducer: {
+                theme: true,
             },
         });
 
