@@ -8,8 +8,8 @@ type JokeItemProps = {
     joke: SampleJoke;
 };
 
-// Composant servant à afficher une joke pour une liste Horizontale
-export default function JokeListItem(props: JokeItemProps) {
+// Component to display a joke for a vertical list
+export default function JokeItemVerticalScrollComponent(props: JokeItemProps) {
     const styles = useDynamicStyles();
     return (
         <View style={{paddingLeft: 10}}>
@@ -17,9 +17,12 @@ export default function JokeListItem(props: JokeItemProps) {
                 <View style={styles.rectangle}></View>
                 <Image
                     style={styles.jokeImage}
-                    source={{uri: props.joke.image}}/>
+                    source={{uri: props.joke.image}}
+                    testID="jokeImage-scroll"/>
                 <View style={styles.jokeDetails}>
-                    <Text style={styles.jokeSummary}>{props.joke.summary()}</Text>
+                    <Text style={styles.jokeSummary} testID="jokeSummary-scroll">
+                        {props.joke.summary()}
+                    </Text>
                 </View>
             </View>
         </View>

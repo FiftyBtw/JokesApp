@@ -1,8 +1,8 @@
 import {FlatList, Image, StyleSheet, Text, View} from "react-native";
 import React, {useEffect, useMemo,} from "react";
 import { theme, LightTheme, DarkTheme } from '../assets/Theme';
-import JokeScrollItem from "../components/JokeScrollComponent";
-import CategoryScrollComponent from "../components/CategoryScrollComponent";
+import JokeScrollItem from "../components/JokeItemVerticalScrollComponent";
+import CategoryItemScrollComponent from "../components/CategoryItemScrollComponent";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getCategoriesList} from "../redux/thunks/categoryThunk";
 import {getLastJokes} from "../redux/thunks/jokeThunk";
@@ -55,7 +55,7 @@ export default function HomeScreen({navigation}) {
                     <FlatList
                         horizontal={true}
                         data={sortedCategories}
-                        renderItem={({ item }) => <CategoryScrollComponent category={item.name} />}
+                        renderItem={({ item }) => <CategoryItemScrollComponent category={item.name} />}
                         keyExtractor={(item) => item.name}
                         showsHorizontalScrollIndicator={false}
                     />

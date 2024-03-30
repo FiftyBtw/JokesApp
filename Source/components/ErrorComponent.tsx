@@ -27,18 +27,21 @@ export default function ErrorComponent() {
                     animationType="slide"
                     transparent={true}
                     visible={modalVisible}
-                    onRequestClose={handleClose}>
+                    onRequestClose={handleClose}
+                    testID="error-modal">
                     <View style={styles.modalBackground}>
                         <View style={styles.modalContainer}>
-                            <Text style={styles.errorMessage}>{error}</Text>
+                            <Text style={styles.errorMessage} testID="error-message">{error}</Text>
                             <TouchableOpacity
                                 style={styles.closeButton}
-                                onPress={handleClose}>
+                                onPress={handleClose}
+                                testID="close-button">
                                 <Text style={styles.closeButtonText}>Fermer</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
+
             )}
         </>
     );

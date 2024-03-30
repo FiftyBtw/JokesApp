@@ -1,7 +1,7 @@
 import {FlatList, StyleSheet, View, Text, TouchableOpacity} from "react-native";
 import React, {useEffect} from "react";
 import {DarkTheme, LightTheme} from "../assets/Theme";
-import {JokeListItem} from "../components/JokeListComponent";
+import {JokeItemFlatListComponent} from "../components/JokeItemFlatListComponent";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {getFavoriteJokes} from "../redux/thunks/jokeThunk";
 import {AppRoute} from "../navigation/routes/AppRoute";
@@ -26,7 +26,7 @@ export default function FavoriteScreen({navigation}) {
                     data={favoriteList}
                     renderItem={({ item }) => (
                         <TouchableOpacity onPress={() => navigation.navigate(AppRoute.DETAILS, { joke: item, typeJoke: "favorite" })}>
-                            <JokeListItem joke={item} />
+                            <JokeItemFlatListComponent joke={item} />
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item) => item.id.toString()}
