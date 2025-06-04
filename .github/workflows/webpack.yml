@@ -1,4 +1,4 @@
-name: Expo React Native CI
+name: Expo React Native CI Debug
 
 on:
   push:
@@ -20,11 +20,23 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: List files at root
+        run: ls -la
+
+      - name: List files in JokesApp (if exists)
+        run: ls -la JokesApp || echo "No JokesApp folder"
+
+      - name: List files in Sources (if exists)
+        run: ls -la Sources || echo "No Sources folder"
+
+      - name: List files in JokesApp/Sources (if exists)
+        run: ls -la JokesApp/Sources || echo "No JokesApp/Sources folder"
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
+          
       - name: Install dependencies
         working-directory: Sources
         run: npm install
