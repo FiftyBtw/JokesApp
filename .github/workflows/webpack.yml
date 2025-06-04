@@ -20,34 +20,27 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: List files at root
-        run: ls -la
-
-      - name: List files in JokesApp (if exists)
-        run: ls -la JokesApp || echo "No JokesApp folder"
-
-      - name: List files in Sources (if exists)
-        run: ls -la Sources || echo "No Sources folder"
-
-      - name: List files in JokesApp/Sources (if exists)
-        run: ls -la JokesApp/Sources || echo "No JokesApp/Sources folder"
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          
+
       - name: Install dependencies
         working-directory: Sources
         run: npm install
 
       - name: Run lint
-        working-directory: Sources
+        working-directory: Source
         run: npm run lint
 
       - name: Run tests
-        working-directory: Sources
+        working-directory: Source
         run: npm test
+
+      - name: Build Expo project
+        working-directory: Source
+        run: npx expo build:ios
+
 
       - name: Build Expo project
         working-directory: Sources
