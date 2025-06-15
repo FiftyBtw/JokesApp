@@ -6,6 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import {AppRoute} from "./routes/AppRoute";
 import {useAppSelector} from "../hooks/redux-hook";
 import FavoriteScreen from "../screens/FavoriteScreen";
+import React from 'react';
 
 // This function is for the navigation between the Catalogue and the JokeDetails
 export default function FavoriteNavigator() {

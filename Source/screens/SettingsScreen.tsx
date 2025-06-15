@@ -2,6 +2,7 @@ import {View, Text, Switch, StyleSheet} from "react-native";
 import {useAppDispatch, useAppSelector} from "../hooks/redux-hook";
 import {DarkTheme, LightTheme, theme} from "../assets/Theme";
 import {storeTheme} from "../redux/thunks/themeThunk";
+import React from 'react';
 
 // Settings page
 export default function SettingsScreen() {
